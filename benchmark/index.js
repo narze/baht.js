@@ -2,6 +2,7 @@ const { bahttext } = require('bahttext');
 const THBText = require('thai-baht-text');
 const { ThaiBaht } = require('thai-baht-text-ts');
 const BAHTTEXTjs = require('./BAHTTEXT');
+const { convert } = require('../dist/fast-baht.cjs.production.min');
 
 const times = 100000;
 const numbers = [
@@ -54,11 +55,27 @@ const numbers = [
   1000000000000000000,
 ];
 
+const digits = num => {
+  const res = [];
+  num = Math.abs(num);
+  while (num) {
+    const last = num % 10;
+    res.unshift(last);
+    num = Math.floor(num / 10);
+  }
+  return res;
+};
+
 const libraries = {
+  'fast-baht': n => convert(n),
   bahttext: n => bahttext(n),
-  'BAHTTEXT.js': n => BAHTTEXTjs(n),
-  'thai-baht-text': n => THBText(n),
-  'thai-baht-text-ts': n => ThaiBaht(n),
+  // 'BAHTTEXT.js': n => BAHTTEXTjs(n),
+  // 'thai-baht-text': n => THBText(n),
+  // 'thai-baht-text-ts': n => ThaiBaht(n),
+  // 'array.mapNumber': n => Array.from('' + n).map(Number),
+  // 'array.tostring-mapNumber': n => Array.from(n.toString()).map(Number),
+  // 'array.map+': n => Array.from('' + n).map(n => +n),
+  // 'array.tostring-map+': n => Array.from(n.toString()).map(n => +n),
 };
 
 Object.entries(libraries).forEach(([name, fn]) => {

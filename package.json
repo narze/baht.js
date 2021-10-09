@@ -17,7 +17,8 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "benchmark": "node ./benchmark"
   },
   "peerDependencies": {},
   "husky": {
@@ -51,5 +52,10 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "bahttext": "^2.0.2",
+    "thai-baht-text": "^1.0.8",
+    "thai-baht-text-ts": "^1.0.5"
   }
 }

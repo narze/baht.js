@@ -1,18 +1,24 @@
 import { convert } from '../src';
 
 describe('convert', () => {
-  it('works', () => {
-    expect(convert(1)).toEqual("หนึ่งบาทถ้วน");
-  });
+  it("returns false for bad inputs", () => {
+    expect(convert(false as unknown as number)).toBe(false);
+    expect(convert("1234" as unknown as number)).toBe(false);
+    expect(convert(true as unknown as number)).toBe(false);
+    expect(convert({} as unknown as number)).toBe(false);
+    expect(convert([] as unknown as number)).toBe(false);
+  })
 
   it('should be a function', () => {
     expect(convert).toEqual(expect.any(Function));
   });
 
-  it('should not convert very small amount', () => {
-    expect(convert(0.0001)).toEqual('');
-    expect(convert(0.001)).toEqual('');
-    expect(convert(0.009)).toEqual('');
+  it('convert to 0', () => {
+    expect(convert(0)).toEqual('ศูนย์บาทถ้วน');
+    expect(convert(0.0)).toEqual('ศูนย์บาทถ้วน');
+    expect(convert(0.0001)).toEqual('ศูนย์บาทถ้วน');
+    expect(convert(0.001)).toEqual('ศูนย์บาทถ้วน');
+    expect(convert(0.009)).toEqual('ศูนย์บาทถ้วน');
   });
 
   it('should convert to Satang', () => {
@@ -47,6 +53,20 @@ describe('convert', () => {
     expect(convert(121)).toEqual('หนึ่งร้อยยี่สิบเอ็ดบาทถ้วน');
   });
 
+  it('should convert to negative baht', () => {
+    expect(convert(-1)).toEqual('ลบหนึ่งบาทถ้วน');
+    expect(convert(-10)).toEqual('ลบสิบบาทถ้วน');
+    expect(convert(-11)).toEqual('ลบสิบเอ็ดบาทถ้วน');
+    expect(convert(-12)).toEqual('ลบสิบสองบาทถ้วน');
+    expect(convert(-20)).toEqual('ลบยี่สิบบาทถ้วน');
+    expect(convert(-21)).toEqual('ลบยี่สิบเอ็ดบาทถ้วน');
+    expect(convert(-22)).toEqual('ลบยี่สิบสองบาทถ้วน');
+    expect(convert(-100)).toEqual('ลบหนึ่งร้อยบาทถ้วน');
+    expect(convert(-101)).toEqual('ลบหนึ่งร้อยเอ็ดบาทถ้วน');
+    expect(convert(-111)).toEqual('ลบหนึ่งร้อยสิบเอ็ดบาทถ้วน');
+    expect(convert(-121)).toEqual('ลบหนึ่งร้อยยี่สิบเอ็ดบาทถ้วน');
+  });
+
   it('should convert big number to Baht', () => {
     expect(convert(1000000)).toEqual('หนึ่งล้านบาทถ้วน');
     expect(convert(1000001)).toEqual('หนึ่งล้านเอ็ดบาทถ้วน');
@@ -66,6 +86,9 @@ describe('convert', () => {
     expect(convert(1000000000)).toEqual('หนึ่งพันล้านบาทถ้วน');
     expect(convert(10000000)).toEqual('สิบล้านบาทถ้วน');
     expect(convert(100000000)).toEqual('หนึ่งร้อยล้านบาทถ้วน');
+
+    // Safe integer
+    expect(convert(9007199254740991)).toEqual("เก้าพันเจ็ดล้านหนึ่งแสนเก้าหมื่นเก้าพันสองร้อยห้าสิบสี่ล้านเจ็ดแสนสี่หมื่นเก้าร้อยเก้าสิบเอ็ดบาทถ้วน")
   });
 
   it('should convert complex number to Baht', () => {
@@ -91,4 +114,5 @@ describe('convert', () => {
       'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์',
     );
   });
+
 });

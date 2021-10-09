@@ -52,30 +52,17 @@ const numbers = [
   1001000000000,
   1001000000001,
   1001000001001,
-  1000000000000000000,
+  123456789012345,
+  987654321098765,
+  Number.MAX_SAFE_INTEGER - 1, // bahttext cannot count above this and will return empty string
 ];
-
-const digits = num => {
-  const res = [];
-  num = Math.abs(num);
-  while (num) {
-    const last = num % 10;
-    res.unshift(last);
-    num = Math.floor(num / 10);
-  }
-  return res;
-};
 
 const libraries = {
   'fast-baht': n => convert(n),
   bahttext: n => bahttext(n),
-  // 'BAHTTEXT.js': n => BAHTTEXTjs(n),
-  // 'thai-baht-text': n => THBText(n),
-  // 'thai-baht-text-ts': n => ThaiBaht(n),
-  // 'array.mapNumber': n => Array.from('' + n).map(Number),
-  // 'array.tostring-mapNumber': n => Array.from(n.toString()).map(Number),
-  // 'array.map+': n => Array.from('' + n).map(n => +n),
-  // 'array.tostring-map+': n => Array.from(n.toString()).map(n => +n),
+  'BAHTTEXT.js': n => BAHTTEXTjs(n),
+  'thai-baht-text': n => THBText(n),
+  'thai-baht-text-ts': n => ThaiBaht(n),
 };
 
 Object.entries(libraries).forEach(([name, fn]) => {

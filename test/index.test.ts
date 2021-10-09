@@ -1,13 +1,13 @@
 import { convert } from '../src';
 
 describe('convert', () => {
-  it("returns false for bad inputs", () => {
-    expect(convert(false as unknown as number)).toBe(false);
-    expect(convert("1234" as unknown as number)).toBe(false);
-    expect(convert(true as unknown as number)).toBe(false);
-    expect(convert({} as unknown as number)).toBe(false);
-    expect(convert([] as unknown as number)).toBe(false);
-  })
+  it('returns false for bad inputs', () => {
+    expect(convert((false as unknown) as number)).toBe(false);
+    expect(convert(('1234' as unknown) as number)).toBe(false);
+    expect(convert((true as unknown) as number)).toBe(false);
+    expect(convert(({} as unknown) as number)).toBe(false);
+    expect(convert(([] as unknown) as number)).toBe(false);
+  });
 
   it('should be a function', () => {
     expect(convert).toEqual(expect.any(Function));
@@ -80,7 +80,7 @@ describe('convert', () => {
     expect(convert(1000000000000)).toEqual('หนึ่งล้านล้านบาทถ้วน');
     expect(convert(1001000000001)).toEqual('หนึ่งล้านหนึ่งพันล้านเอ็ดบาทถ้วน');
     expect(convert(1001000001001)).toEqual(
-      'หนึ่งล้านหนึ่งพันล้านหนึ่งพันเอ็ดบาทถ้วน',
+      'หนึ่งล้านหนึ่งพันล้านหนึ่งพันเอ็ดบาทถ้วน'
     );
     expect(convert(1001000000000)).toEqual('หนึ่งล้านหนึ่งพันล้านบาทถ้วน');
     expect(convert(1000000000)).toEqual('หนึ่งพันล้านบาทถ้วน');
@@ -88,21 +88,23 @@ describe('convert', () => {
     expect(convert(100000000)).toEqual('หนึ่งร้อยล้านบาทถ้วน');
 
     // Safe integer
-    expect(convert(9007199254740991)).toEqual("เก้าพันเจ็ดล้านหนึ่งแสนเก้าหมื่นเก้าพันสองร้อยห้าสิบสี่ล้านเจ็ดแสนสี่หมื่นเก้าร้อยเก้าสิบเอ็ดบาทถ้วน")
+    expect(convert(9007199254740991)).toEqual(
+      'เก้าพันเจ็ดล้านหนึ่งแสนเก้าหมื่นเก้าพันสองร้อยห้าสิบสี่ล้านเจ็ดแสนสี่หมื่นเก้าร้อยเก้าสิบเอ็ดบาทถ้วน'
+    );
   });
 
   it('should convert complex number to Baht', () => {
     expect(convert(6321298)).toEqual(
-      'หกล้านสามแสนสองหมื่นหนึ่งพันสองร้อยเก้าสิบแปดบาทถ้วน',
+      'หกล้านสามแสนสองหมื่นหนึ่งพันสองร้อยเก้าสิบแปดบาทถ้วน'
     );
     expect(convert(10034567)).toEqual(
-      'สิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน',
+      'สิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน'
     );
     expect(convert(20034567)).toEqual(
-      'ยี่สิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน',
+      'ยี่สิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน'
     );
     expect(convert(30034567.0)).toEqual(
-      'สามสิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน',
+      'สามสิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน'
     );
   });
 
@@ -111,8 +113,7 @@ describe('convert', () => {
     expect(convert(100.5)).toEqual('หนึ่งร้อยบาทห้าสิบสตางค์');
     expect(convert(567.01)).toEqual('ห้าร้อยหกสิบเจ็ดบาทหนึ่งสตางค์');
     expect(convert(123456789.999)).toEqual(
-      'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์',
+      'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์'
     );
   });
-
 });

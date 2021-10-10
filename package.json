@@ -1,5 +1,8 @@
 {
   "version": "0.3.1",
+  "name": "baht",
+  "author": "Manassarn Manoonchai",
+  "description": "Convert number to Thai Baht format, but faster & fully typed.",
   "license": "MIT",
   "main": "dist/index.js",
   "homepage": "https://github.com/narze/baht.js",
@@ -45,8 +48,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "baht",
-  "author": "Manassarn Manoonchai",
   "module": "dist/baht.esm.js",
   "size-limit": [
     {

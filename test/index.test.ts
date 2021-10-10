@@ -2,8 +2,8 @@ import { convert } from '../src';
 
 describe('convert', () => {
   it('returns false for bad inputs', () => {
+    expect(convert(('hello' as unknown) as number)).toBe(false);
     expect(convert((false as unknown) as number)).toBe(false);
-    expect(convert(('1234' as unknown) as number)).toBe(false);
     expect(convert((true as unknown) as number)).toBe(false);
     expect(convert(({} as unknown) as number)).toBe(false);
     expect(convert(([] as unknown) as number)).toBe(false);
@@ -114,6 +114,20 @@ describe('convert', () => {
     expect(convert(567.01)).toEqual('ห้าร้อยหกสิบเจ็ดบาทหนึ่งสตางค์');
     expect(convert(123456789.999)).toEqual(
       'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์'
+    );
+  });
+
+  it('should convert number in string format', () => {
+    expect(convert(('1234' as unknown) as number)).toBe(
+      'หนึ่งพันสองร้อยสามสิบสี่บาทถ้วน'
+    );
+    expect(convert(('-1' as unknown) as number)).toBe('ลบหนึ่งบาทถ้วน');
+    expect(convert(('-30' as unknown) as number)).toBe('ลบสามสิบบาทถ้วน');
+    expect(convert(('123456789.999' as unknown) as number)).toEqual(
+      'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์'
+    );
+    expect(convert(('4123001998830750501' as unknown) as number)).toBe(
+      'สี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทถ้วน'
     );
   });
 });

@@ -3,6 +3,7 @@ const THBText = require('thai-baht-text');
 const { ThaiBaht } = require('thai-baht-text-ts');
 const BAHTTEXTjs = require('./BAHTTEXT');
 const { convert } = require('../dist/baht.cjs.production.min');
+// const { convert: bahtLatest } = require('baht');
 
 const times = 100000;
 const numbers = [
@@ -59,6 +60,7 @@ const numbers = [
 
 const libraries = {
   baht: n => convert(n),
+  // bahtLatest: n => bahtLatest(n),
   bahttext: n => bahttext(n),
   'BAHTTEXT.js': n => BAHTTEXTjs(n),
   'thai-baht-text': n => THBText(n),

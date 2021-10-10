@@ -2395,6 +2395,11 @@ babel-preset-jest@^26.6.2:
     babel-plugin-jest-hoist "^26.6.2"
     babel-preset-current-node-syntax "^1.0.0"
 
+baht@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/baht/-/baht-0.2.0.tgz#a6b868983bd379632d0bea27b853cb8d55bf05d4"
+  integrity sha512-IOVoWYy7Jixey8HR0wIy3ormCjQULKhghGwUW+WVupJdDb8LcGenohVAt+SiOjNwbWcvs+gek5sY4i0yC7NqxA==
+
 bahttext@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/bahttext/-/bahttext-2.0.2.tgz#be327d958d6c1141ba9a72dfce0c0dd10a41d2a6"

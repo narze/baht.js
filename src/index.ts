@@ -7,32 +7,53 @@ const TENS = ['', ...['', 'ยี่', ...THREE_TO_NINE].map(t => t + DIGITS[0])
 const SUB_HUNDRED = TENS.flatMap(t => ONES.map(o => t + o));
 SUB_HUNDRED[1] = ONE;
 
-export function convert(input: number): string | boolean {
-  if (typeof input !== 'number') {
+export function convert(input: number | string): string | boolean {
+  let baht: number;
+  let bahtStr: string;
+  let satang: number;
+  let satangStr: string | undefined;
+  let isNegative = false;
+
+  if (typeof input === 'number') {
+    if (input < 0) {
+      isNegative = true;
+      input = -input;
+    }
+    baht = Math.floor(input);
+    satang = Number.isInteger(input) ? 0 : Math.floor((input * 100) % 100);
+    bahtStr = baht.toString();
+  } else if (typeof input === 'string') {
+    const inputNum = Number(input);
+
+    if (isNaN(inputNum)) {
+      return false;
+    }
+
+    [bahtStr, satangStr] = input.toString().split('.');
+
+    baht = Math.floor(Number(bahtStr));
+    satang = satangStr ? Math.floor(Number('0.' + satangStr) * 100) : 0;
+
+    if (baht < 0) {
+      isNegative = true;
+      baht = -baht;
+    }
+  } else {
     return false;
   }
 
-  const out = [];
-  let isNegative = false;
-
-  if (input < 0) {
-    isNegative = true;
-    input = -input;
-  }
-
-  const baht = Math.floor(input);
-  const satangs = Number.isInteger(input) ? 0 : Math.floor((input * 100) % 100);
-
-  if (!baht && !satangs) {
+  if (!baht && !satang) {
     return 'ศูนย์บาทถ้วน';
   }
+
+  const out = [];
 
   // Baht
   if (baht < 100) {
     out.push(SUB_HUNDRED[baht]);
   } else {
     const digits: number[] = [];
-    Array.from(baht.toString()).forEach(s => digits.unshift(+s));
+    Array.from(bahtStr).forEach(s => digits.unshift(+s));
     const millionGroups = Array.from({ length: 1 + digits.length / 6 }, () =>
       digits.splice(0, 6)
     );
@@ -61,9 +82,9 @@ export function convert(input: number): string | boolean {
     out[0] = ONE;
   }
 
-  if (satangs) {
+  if (satang) {
     if (baht) out.push('บาท');
-    out.push(SUB_HUNDRED[satangs]);
+    out.push(SUB_HUNDRED[satang]);
     out.push('สตางค์');
   } else {
     out.push('บาทถ้วน');

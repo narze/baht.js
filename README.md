@@ -8,25 +8,26 @@ Convert number to Thai Baht format, but faster & fully typed.
 
 - Install with npm or yarn
 
-    ```shell
-    npm install baht
-    # or
-    yarn add baht
-    ```
+  ```shell
+  npm install baht
+  # or
+  yarn add baht
+  ```
 
 - Import and use
 
-    ```javascript
-    import { convert } from "baht"
+  ```javascript
+  import { convert } from 'baht';
 
-    convert(42) // "สี่สิบสองบาทถ้วน"
-    convert(123.45) // "หนึ่งร้อยยี่สิบสามบาทสี่สิบห้าสตางค์"
-    ```
+  convert(42); // "สี่สิบสองบาทถ้วน"
+  convert(123.45); // "หนึ่งร้อยยี่สิบสามบาทสี่สิบห้าสตางค์"
+  ```
 
 ## Features
 
 - Converts numbers to Thai Baht formatted string.
-- Supports 2 decimal places (Satangs)
+- Converts long numbers (Use string format to prevent precision loss)
+- Supports 2 decimal places (Satangs), for over 2 decimal places it will round down.
 - Supports negative number
 
 ## Benchmark
@@ -36,12 +37,12 @@ Run the benchmark to measure the speed among other libraries.
 ```shell
 yarn benchmark
 
-baht (x100000): 3946ms
-bahttext (x100000): 4818ms
-BAHTTEXT.js (x100000): 5834ms
-thai-baht-text (x100000): 10301ms
-thai-baht-text-ts (x100000): 9867ms
-✨  Done in 34.95s.
+baht (x100000): 4253ms
+bahttext (x100000): 4961ms
+BAHTTEXT.js (x100000): 5734ms
+thai-baht-text (x100000): 10454ms
+thai-baht-text-ts (x100000): 9472ms
+✨  Done in 35.03s.
 ```
 
 Baht.js is the fastest!

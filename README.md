@@ -46,3 +46,7 @@ thai-baht-text-ts (x100000): 9472ms
 ```
 
 Baht.js is the fastest!
+
+## LICENSE
+
+MIT

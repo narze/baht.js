@@ -25,10 +25,10 @@ Convert number to Thai Baht format, but faster & fully typed.
 
 ## Features
 
-- Converts numbers to Thai Baht formatted string.
-- Converts long numbers (Use string format to prevent precision loss)
+- Converts number to Thai Baht formatted string.
+- Converts long number (Use string format to prevent precision loss.)
 - Supports 2 decimal places (Satangs), for over 2 decimal places it will round down.
-- Supports negative number
+- Supports negative number.
 
 ## Benchmark
 

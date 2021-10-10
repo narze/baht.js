@@ -2,6 +2,17 @@
   "version": "0.3.0",
   "license": "MIT",
   "main": "dist/index.js",
+  "keywords": [
+    "Thai",
+    "Baht",
+    "THB",
+    "Money",
+    "Number",
+    "Format",
+    "Convert",
+    "TypeScript",
+    "JavaScript"
+  ],
   "typings": "dist/index.d.ts",
   "files": [
     "dist",

@@ -1,8 +1,6 @@
 # Baht.js
 
-<span class="badge-npmversion"><a href="https://npmjs.org/package/baht" title="View this project on NPM"><img src="https://img.shields.io/npm/v/baht.svg" alt="NPM version" /></a></span>
-<!-- <span class="badge-npmdownloads"><a href="https://npmjs.org/package/baht" title="View this project on NPM"><img src="https://img.shields.io/npm/dm/baht.svg" alt="NPM downloads" /></a></span> -->
-[![install size](https://packagephobia.com/badge?p=baht)](https://packagephobia.com/result?p=baht)
+<span class="badge-npmversion"><a href="https://npmjs.org/package/baht" title="View this project on NPM"><img src="https://img.shields.io/npm/v/baht.svg" alt="NPM version" /></a></span> <!-- <span class="badge-npmdownloads"><a href="https://npmjs.org/package/baht" title="View this project on NPM"><img src="https://img.shields.io/npm/dm/baht.svg" alt="NPM downloads" /></a></span> --> [![install size](https://packagephobia.com/badge?p=baht)](https://packagephobia.com/result?p=baht)
 
 Convert number to Thai Baht format, but faster & fully typed.
 

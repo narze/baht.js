@@ -2,8 +2,9 @@ const { bahttext } = require('bahttext');
 const THBText = require('thai-baht-text');
 const { ThaiBaht } = require('thai-baht-text-ts');
 const BAHTTEXTjs = require('./BAHTTEXT');
-const { convert } = require('../dist/baht.cjs.production.min');
-// const { convert: bahtLatest } = require('baht');
+const thaiBahtLib = require('@to-da-moon/thai-baht-lib');
+const { convert: baht } = require('../dist/baht.cjs.production.min');
+const { convert: bahtLatest } = require('baht');
 
 const times = 100000;
 const numbers = [
@@ -59,8 +60,9 @@ const numbers = [
 ];
 
 const libraries = {
-  baht: n => convert(n),
-  // bahtLatest: n => bahtLatest(n),
+  baht: n => baht(n),
+  bahtLatest: n => bahtLatest(n),
+  thaiBahtLib: n => thaiBahtLib.bahtText(n),
   bahttext: n => bahttext(n),
   'BAHTTEXT.js': n => BAHTTEXTjs(n),
   'thai-baht-text': n => THBText(n),

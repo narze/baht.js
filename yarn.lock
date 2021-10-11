@@ -1533,6 +1533,11 @@
     "@statoscope/types" "5.12.1"
     highcharts "^8.0.0"
 
+"@to-da-moon/thai-baht-lib@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@to-da-moon/thai-baht-lib/-/thai-baht-lib-0.0.10.tgz#e2e3d75a2be3fd94d98024053e61269df6160c67"
+  integrity sha512-ZhsBW59IQUSBVVLb2zcW6lrhHWzdpdD03v9EcgNmgiSGRN7UPeTu9a8Yg7BJfpCblNvuinRGPos4GXHTD6J+dw==
+
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"

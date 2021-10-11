@@ -37,12 +37,14 @@ Run the benchmark to measure the speed among other libraries.
 ```shell
 yarn benchmark
 
-baht (x100000): 4253ms
-bahttext (x100000): 4961ms
-BAHTTEXT.js (x100000): 5734ms
-thai-baht-text (x100000): 10454ms
-thai-baht-text-ts (x100000): 9472ms
-✨  Done in 35.03s.
+baht 0.4.0 (x100000): 665ms
+baht 0.3.2 (x100000): 2968ms
+thaiBahtLib (x100000): 3189ms
+bahttext (x100000): 3503ms
+BAHTTEXT.js (x100000): 4816ms
+thai-baht-text (x100000): 8525ms
+thai-baht-text-ts (x100000): 7710ms
+✨  Done in 31.53s.
 ```
 
 Baht.js is the fastest!

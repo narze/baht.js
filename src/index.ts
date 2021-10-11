@@ -1,21 +1,20 @@
 const ONE = 'หนึ่ง';
+const TWO = 'สอง';
 const THREE_TO_NINE = ['สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
 const ED = 'เอ็ด';
-const DIGIT = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน'];
-const ONES = ['', ED, 'สอง', ...THREE_TO_NINE];
-const TENS = ['', ...['', 'ยี่', ...THREE_TO_NINE].map(t => t + DIGIT[1])];
+const YEE = 'ยี่';
+const LAN = 'ล้าน';
+const EMPTY = '';
+const DIGIT = [EMPTY, 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน'];
+const ONES = [EMPTY, ED, TWO, ...THREE_TO_NINE];
+const TENS = [EMPTY, ...[EMPTY, YEE, ...THREE_TO_NINE].map(t => t + DIGIT[1])];
 const SUB_HUNDRED = TENS.flatMap(t => ONES.map(o => t + o));
 SUB_HUNDRED[1] = ONE;
-const SUB_TEN = [
-  '',
-  ONE,
-  'สอง',
-  ...['สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'],
-];
+const SUB_TEN = [EMPTY, ONE, TWO, ...THREE_TO_NINE];
 
 function numberToWords(num: string): string {
-  let output = '';
-  let length = num.length;
+  let output = EMPTY;
+  const length = num.length;
 
   Array.from(num).forEach((d, idx) => {
     const digitIdx = (length - idx - 1) % 6;
@@ -23,28 +22,26 @@ function numberToWords(num: string): string {
 
     if (d === '0') {
       if (isMillion) {
-        output += 'ล้าน';
+        output += LAN;
       }
 
       return;
     }
-    const digit = DIGIT[digitIdx];
-    const unit = SUB_TEN[Number(d)];
 
     const isSib = digitIdx === 1;
 
     if (isSib && d === '1') {
-      output += digit;
+      output += DIGIT[digitIdx];
     } else if (isSib && d === '2') {
-      output += 'ยี่' + digit;
+      output += YEE + DIGIT[digitIdx];
     } else if (idx !== 0 && digitIdx === 0 && d === '1') {
-      output += 'เอ็ด';
+      output += ED;
     } else {
-      output += unit + digit;
+      output += SUB_TEN[Number(d)] + DIGIT[digitIdx];
     }
 
     if (isMillion) {
-      output += 'ล้าน';
+      output += LAN;
     }
   });
 
@@ -91,7 +88,7 @@ export function convert(input: number | string): string | boolean {
     return 'ศูนย์บาทถ้วน';
   }
 
-  let output = '';
+  let output = EMPTY;
 
   // Baht
   output += numberToWords(bahtStr);

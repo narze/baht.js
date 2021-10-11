@@ -1,11 +1,55 @@
 const ONE = 'หนึ่ง';
 const THREE_TO_NINE = ['สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'];
 const ED = 'เอ็ด';
-const DIGITS = ['สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน'];
+const DIGIT = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน'];
 const ONES = ['', ED, 'สอง', ...THREE_TO_NINE];
-const TENS = ['', ...['', 'ยี่', ...THREE_TO_NINE].map(t => t + DIGITS[0])];
+const TENS = ['', ...['', 'ยี่', ...THREE_TO_NINE].map(t => t + DIGIT[1])];
 const SUB_HUNDRED = TENS.flatMap(t => ONES.map(o => t + o));
 SUB_HUNDRED[1] = ONE;
+const SUB_TEN = [
+  '',
+  ONE,
+  'สอง',
+  ...['สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า'],
+];
+
+function numberToWords(num: string): string {
+  let output = '';
+  let length = num.length;
+
+  Array.from(num).forEach((d, idx) => {
+    const digitIdx = (length - idx - 1) % 6;
+    const isMillion = length - 1 !== idx && digitIdx === 0;
+
+    if (d === '0') {
+      if (isMillion) {
+        output += 'ล้าน';
+      }
+
+      return;
+    }
+    const digit = DIGIT[digitIdx];
+    const unit = SUB_TEN[Number(d)];
+
+    const isSib = digitIdx === 1;
+
+    if (isSib && d === '1') {
+      output += digit;
+    } else if (isSib && d === '2') {
+      output += 'ยี่' + digit;
+    } else if (idx !== 0 && digitIdx === 0 && d === '1') {
+      output += 'เอ็ด';
+    } else {
+      output += unit + digit;
+    }
+
+    if (isMillion) {
+      output += 'ล้าน';
+    }
+  });
+
+  return output;
+}
 
 export function convert(input: number | string): string | boolean {
   let baht: number;
@@ -37,6 +81,7 @@ export function convert(input: number | string): string | boolean {
     if (baht < 0) {
       isNegative = true;
       baht = -baht;
+      bahtStr = baht.toString();
     }
   } else {
     return false;
@@ -46,53 +91,25 @@ export function convert(input: number | string): string | boolean {
     return 'ศูนย์บาทถ้วน';
   }
 
-  const out = [];
+  let output = '';
 
   // Baht
-  if (baht < 100) {
-    out.push(SUB_HUNDRED[baht]);
-  } else {
-    const digits: number[] = [];
-    Array.from(bahtStr).forEach(s => digits.unshift(+s));
-    const millionGroups = Array.from({ length: 1 + digits.length / 6 }, () =>
-      digits.splice(0, 6)
-    );
+  output += numberToWords(bahtStr);
 
-    millionGroups.forEach((subMillion, mi) => {
-      if (mi) {
-        out.unshift('ล้าน');
-      }
-      subMillion.forEach((d, i) => {
-        if (i === 0) {
-          const n = d + Number(subMillion[1] || 0) * 10;
-          if (n === 1) {
-            out.unshift(ED);
-          } else {
-            out.unshift(SUB_HUNDRED[n]);
-          }
-        } else if (d && i !== 1) {
-          out.unshift(i ? DIGITS[(i - 1) % 6] : '');
-          out.unshift(SUB_HUNDRED[d]);
-        }
-      });
-    });
-  }
-
-  if (out[0] === ED) {
-    out[0] = ONE;
-  }
-
+  // Satang
   if (satang) {
-    if (baht) out.push('บาท');
-    out.push(SUB_HUNDRED[satang]);
-    out.push('สตางค์');
+    if (baht) output += 'บาท';
+
+    // Faster!
+    output += SUB_HUNDRED[satang] + 'สตางค์';
+    // output += numberToWords(satang.toString()) + 'สตางค์';
   } else {
-    out.push('บาทถ้วน');
+    output += 'บาทถ้วน';
   }
 
   if (isNegative) {
-    out.unshift('ลบ');
+    output = 'ลบ' + output;
   }
 
-  return out.join('');
+  return output;
 }

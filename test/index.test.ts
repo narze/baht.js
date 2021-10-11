@@ -1,8 +1,40 @@
 import { convert } from '../src';
+// const { ThaiBaht: thaiBahtText } = require('thai-baht-text-ts');
+// import thaiBahtText from "thai-baht-text"
 
 describe('convert', () => {
+  it('works', () => {
+    expect(convert(0)).toBe('ศูนย์บาทถ้วน');
+    expect(convert(1)).toBe('หนึ่งบาทถ้วน');
+    expect(convert(2)).toBe('สองบาทถ้วน');
+    expect(convert(5)).toBe('ห้าบาทถ้วน');
+    expect(convert(9)).toBe('เก้าบาทถ้วน');
+
+    expect(convert(10)).toBe('สิบบาทถ้วน');
+    expect(convert(20)).toBe('ยี่สิบบาทถ้วน');
+
+    expect(convert(30)).toBe('สามสิบบาทถ้วน');
+    expect(convert(45)).toBe('สี่สิบห้าบาทถ้วน');
+
+    expect(convert(100)).toBe('หนึ่งร้อยบาทถ้วน');
+    expect(convert(122)).toBe('หนึ่งร้อยยี่สิบสองบาทถ้วน');
+    expect(convert(190)).toBe('หนึ่งร้อยเก้าสิบบาทถ้วน');
+
+    expect(convert(290)).toBe('สองร้อยเก้าสิบบาทถ้วน');
+
+    expect(convert(1000)).toBe('หนึ่งพันบาทถ้วน');
+    expect(convert(10000)).toBe('หนึ่งหมื่นบาทถ้วน');
+    expect(convert(100000)).toBe('หนึ่งแสนบาทถ้วน');
+
+    expect(convert(1000000)).toBe('หนึ่งล้านบาทถ้วน');
+    expect(convert(1002000)).toBe('หนึ่งล้านสองพันบาทถ้วน');
+
+    expect(convert(10000000)).toBe('สิบล้านบาทถ้วน');
+    expect(convert(10002000)).toBe('สิบล้านสองพันบาทถ้วน');
+  });
+
   it('returns false for bad inputs', () => {
-    expect(convert(('hello' as unknown) as number)).toBe(false);
+    expect(convert('hello')).toBe(false);
     expect(convert((false as unknown) as number)).toBe(false);
     expect(convert((true as unknown) as number)).toBe(false);
     expect(convert(({} as unknown) as number)).toBe(false);
@@ -130,4 +162,11 @@ describe('convert', () => {
       'สี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทถ้วน'
     );
   });
+
+  // it("equals to value from thai-baht-text-ts library", () => {
+  //   console.log(10056518, convert(10056518), thaiBahtText(10056518))
+  //   for (let i = 1; i < 20000000; i += 1) { // Math.floor(Math.random() * 10000)) {
+  //     expect(convert(i)).toEqual(thaiBahtText(i));
+  //   }
+  // })
 });

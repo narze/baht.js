@@ -168,6 +168,33 @@ describe('convert', () => {
     expect(convert(('4123001998830750501' as unknown) as number)).toBe(
       'สี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทถ้วน'
     );
+    expect(convert(('-4123001998830750501' as unknown) as number)).toBe(
+      'ลบสี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทถ้วน'
+    );
+    expect(convert(('-4123001998830750501.21' as unknown) as number)).toBe(
+      'ลบสี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทยี่สิบเอ็ดสตางค์'
+    );
+    expect(convert(('-1654321.21' as unknown) as number)).toBe(
+      'ลบหนึ่งล้านหกแสนห้าหมื่นสี่พันสามร้อยยี่สิบเอ็ดบาทยี่สิบเอ็ดสตางค์'
+    );
+  });
+
+  it('should convert looping string numbers correctly', () => {
+    for (let i = 100; i >= 0; i--) {
+      const loopingNumber = Array(i)
+        .fill('654321028761')
+        .join('');
+
+      const loopingText = Array(i)
+        .fill(
+          'ล้านหกแสนห้าหมื่นสี่พันสามร้อยยี่สิบเอ็ดล้านสองหมื่นแปดพันเจ็ดร้อยหกสิบเอ็ด'
+        )
+        .join('');
+
+      expect(
+        convert((`-1${loopingNumber}.21${555555}` as unknown) as number)
+      ).toBe(`ลบหนึ่ง${loopingText}บาทยี่สิบเอ็ดสตางค์`);
+    }
   });
 
   // it('equals to value from other library (STRESS TEST)', () => {

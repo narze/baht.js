@@ -16,32 +16,25 @@ function numberToWords(num: string): string {
   let output = EMPTY;
   const length = num.length;
 
-  for (let idx = 0; idx < length; idx++) {
-    const d = num[idx];
-    const digitIdx = (length - idx - 1) % 6;
-    const isMillion = length - 1 !== idx && digitIdx === 0;
+  for (let i = 0; i < length; i++) {
+    const d = num[i];
+    const di = length - i - 1
+    const diMod = di % 6;
+    const isSib = diMod === 1;
 
     if (d === '0') {
-      if (isMillion) {
-        output += LAN;
-      }
-
-      continue;
-    }
-
-    const isSib = digitIdx === 1;
-
-    if (isSib && d === '1') {
-      output += DIGIT[digitIdx];
+      // No-op
+    } else if (isSib && d === '1') {
+      output += DIGIT[diMod];
     } else if (isSib && d === '2') {
-      output += YEE + DIGIT[digitIdx];
-    } else if (idx !== 0 && digitIdx === 0 && d === '1') {
+      output += YEE + DIGIT[diMod];
+    } else if (!diMod && d === '1' && i) {
       output += ED;
     } else {
-      output += SUB_TEN[Number(d)] + DIGIT[digitIdx];
+      output += SUB_TEN[Number(d)] + DIGIT[diMod];
     }
 
-    if (isMillion) {
+    if (!diMod && di) {
       output += LAN;
     }
   }

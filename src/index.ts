@@ -29,7 +29,7 @@ function numberToWords(num: string): string {
     }
 
     const isSib = digitIdx === 1;
-    if (isSib) { return }
+    if (isSib) { return; }
 
     const isNuay = digitIdx === 0;
 

@@ -18,7 +18,7 @@ function numberToWords(num: string): string {
 
   for (let i = 0; i < length; i++) {
     const d = num[i];
-    const di = length - i - 1
+    const di = length - i - 1;
     const diMod = di % 6;
     const isSib = diMod === 1;
 

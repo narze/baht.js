@@ -34,18 +34,20 @@ Convert number to Thai Baht format, but faster & fully typed.
 
 Run the benchmark to measure the speed among other libraries.
 
-```shell
-yarn benchmark
+- Apple Macbook Pro M1
 
-baht 0.4.0 (x100000): 665ms
-baht 0.3.2 (x100000): 2968ms
-thaiBahtLib (x100000): 3189ms
-bahttext (x100000): 3503ms
-BAHTTEXT.js (x100000): 4816ms
-thai-baht-text (x100000): 8525ms
-thai-baht-text-ts (x100000): 7710ms
-✨  Done in 31.53s.
-```
+  ```shell
+  yarn benchmark
+
+  baht 0.5.0 (x100000): 355ms
+  baht 0.4.0 (x100000): 665ms
+  baht 0.3.2 (x100000): 2968ms
+  thaiBahtLib (x100000): 3189ms
+  bahttext (x100000): 3503ms
+  BAHTTEXT.js (x100000): 4816ms
+  thai-baht-text-ts (x100000): 7710ms
+  thai-baht-text (x100000): 8525ms
+  ```
 
 Baht.js is the fastest!
 

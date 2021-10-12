@@ -29,16 +29,30 @@ function numberToWords(num: string): string {
     }
 
     const isSib = digitIdx === 1;
+    if (isSib) { return }
 
-    if (isSib && d === '1') {
-      output += DIGIT[digitIdx];
-    } else if (isSib && d === '2') {
-      output += YEE + DIGIT[digitIdx];
-    } else if (idx !== 0 && digitIdx === 0 && d === '1') {
-      output += ED;
+    const isNuay = digitIdx === 0;
+
+    if (isNuay) {
+      const n = Number(d) + Number(num[idx - 1] || 0) * 10;
+      if (n === 1 && idx !== 0) {
+        output += ED;
+      } else {
+        output += SUB_HUNDRED[n];
+      }
     } else {
       output += SUB_TEN[Number(d)] + DIGIT[digitIdx];
     }
+
+    // if (isSib && d === '1') {
+    //   output += DIGIT[digitIdx];
+    // } else if (isSib && d === '2') {
+    //   output += YEE + DIGIT[digitIdx];
+    // } else if (idx !== 0 && digitIdx === 0 && d === '1') {
+    //   output += ED;
+    // } else {
+    //   output += SUB_TEN[Number(d)] + DIGIT[digitIdx];
+    // }
 
     if (isMillion) {
       output += LAN;

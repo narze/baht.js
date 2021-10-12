@@ -58,21 +58,33 @@ export function convert(input: number | string): string | boolean {
     satang = Number.isInteger(input) ? 0 : Math.floor((input * 100) % 100);
     bahtStr = baht.toString();
   } else if (typeof input === 'string') {
-    const inputNum = Number(input);
+    let inputNum = Number(input);
 
     if (isNaN(inputNum)) {
       return false;
     }
 
-    [bahtStr, satangStr] = input.toString().split('.');
-
-    baht = Math.floor(Number(bahtStr));
-    satang = satangStr ? Math.floor(Number('0.' + satangStr) * 100) : 0;
-
-    if (baht < 0) {
+    if (inputNum < 0) {
       isNegative = true;
-      baht = -baht;
-      bahtStr = baht.toString();
+      inputNum = -inputNum;
+      input = input.slice(1);
+    }
+
+    const inputStr = input;
+
+    let periodIdx;
+    if (
+      inputStr.includes('.') &&
+      (periodIdx = inputStr.lastIndexOf('.')) !== -1
+    ) {
+      bahtStr = inputStr.slice(0, periodIdx);
+      baht = +bahtStr;
+      satangStr = inputStr.slice(periodIdx + 1);
+      satang = satangStr ? Math.floor(Number('0.' + satangStr) * 100) : 0;
+    } else {
+      baht = inputNum;
+      bahtStr = inputStr;
+      satang = 0;
     }
   } else {
     return false;

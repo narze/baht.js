@@ -1,6 +1,6 @@
 import { convert } from '../src';
-// const { ThaiBaht: thaiBahtText } = require('thai-baht-text-ts');
-// import thaiBahtText from "thai-baht-text"
+import { convert as bahtLatest } from 'baht';
+const { ThaiBaht: thaiBahtText } = require('thai-baht-text-ts');
 
 describe('convert', () => {
   it('works', () => {
@@ -25,6 +25,9 @@ describe('convert', () => {
     expect(convert(1000)).toBe('หนึ่งพันบาทถ้วน');
     expect(convert(10000)).toBe('หนึ่งหมื่นบาทถ้วน');
     expect(convert(100000)).toBe('หนึ่งแสนบาทถ้วน');
+    expect(convert(100001)).toBe('หนึ่งแสนเอ็ดบาทถ้วน');
+    expect(convert(100005)).toBe('หนึ่งแสนห้าบาทถ้วน');
+    expect(convert(100021)).toBe('หนึ่งแสนยี่สิบเอ็ดบาทถ้วน');
 
     expect(convert(1000000)).toBe('หนึ่งล้านบาทถ้วน');
     expect(convert(1002000)).toBe('หนึ่งล้านสองพันบาทถ้วน');
@@ -104,6 +107,10 @@ describe('convert', () => {
     expect(convert(1000001)).toEqual('หนึ่งล้านเอ็ดบาทถ้วน');
     expect(convert(11000001)).toEqual('สิบเอ็ดล้านเอ็ดบาทถ้วน');
     expect(convert(11000000)).toEqual('สิบเอ็ดล้านบาทถ้วน');
+    expect(convert(21000000)).toEqual('ยี่สิบเอ็ดล้านบาทถ้วน');
+    expect(convert(21000010)).toEqual('ยี่สิบเอ็ดล้านสิบบาทถ้วน');
+    expect(convert(21000011)).toEqual('ยี่สิบเอ็ดล้านสิบเอ็ดบาทถ้วน');
+    expect(convert(121000011)).toEqual('หนึ่งร้อยยี่สิบเอ็ดล้านสิบเอ็ดบาทถ้วน');
   });
 
   it('should convert multiple million round to Baht', () => {
@@ -163,10 +170,10 @@ describe('convert', () => {
     );
   });
 
-  // it("equals to value from thai-baht-text-ts library", () => {
-  //   console.log(10056518, convert(10056518), thaiBahtText(10056518))
-  //   for (let i = 1; i < 20000000; i += 1) { // Math.floor(Math.random() * 10000)) {
+  // it('equals to value from other library (STRESS TEST)', () => {
+  //   for (let i = 1; i < 20000000; i += 1) {
+  //     expect(convert(i)).toEqual(bahtLatest(i));
   //     expect(convert(i)).toEqual(thaiBahtText(i));
   //   }
-  // })
+  // });
 });

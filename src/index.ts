@@ -16,7 +16,8 @@ function numberToWords(num: string): string {
   let output = EMPTY;
   const length = num.length;
 
-  Array.from(num).forEach((d, idx) => {
+  for (let idx = 0; idx < length; idx++) {
+    const d = num[idx];
     const digitIdx = (length - idx - 1) % 6;
     const isMillion = length - 1 !== idx && digitIdx === 0;
 
@@ -25,7 +26,7 @@ function numberToWords(num: string): string {
         output += LAN;
       }
 
-      return;
+      continue;
     }
 
     const isSib = digitIdx === 1;
@@ -43,7 +44,7 @@ function numberToWords(num: string): string {
     if (isMillion) {
       output += LAN;
     }
-  });
+  }
 
   return output;
 }

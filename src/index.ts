@@ -56,7 +56,7 @@ export function convert(input: number | string): string | boolean {
     }
     baht = Math.floor(input);
     satang = Number.isInteger(input) ? 0 : Math.floor((input * 100) % 100);
-    bahtStr = baht.toString();
+    bahtStr = '' + baht;
   } else if (typeof input === 'string') {
     let inputNum = Number(input);
 

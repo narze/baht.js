@@ -94,7 +94,7 @@ export function convert(input: number | string): string | boolean {
     return 'ศูนย์บาทถ้วน';
   }
 
-  let output = EMPTY;
+  let output = isNegative ? 'ลบ' : EMPTY;
 
   // Baht
   output += numberToWords(bahtStr);
@@ -108,10 +108,6 @@ export function convert(input: number | string): string | boolean {
     // output += numberToWords(satang.toString()) + 'สตางค์';
   } else {
     output += 'บาทถ้วน';
-  }
-
-  if (isNegative) {
-    output = 'ลบ' + output;
   }
 
   return output;

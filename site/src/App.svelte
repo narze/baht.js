@@ -50,9 +50,9 @@
       <thead>
         <tr>
           <th style="width:100px;" class="text-end"
-            ><small class="thead">จำนวนเงิน</small>
+            ><span class="thead">จำนวนเงิน</span>
           </th>
-          <th class="text-start"><small class="thead">คำอ่าน</small></th>
+          <th class="text-start"><span class="thead">คำอ่าน</span></th>
         </tr>
       </thead>
       <tbody>
@@ -117,6 +117,8 @@
   }
   .thead {
     color: rgba(128, 128, 128, 0.747);
+    font-weight: 200;
+    
   }
   @media (min-width: 1200px) {
     .container {

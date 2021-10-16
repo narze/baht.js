@@ -4,6 +4,10 @@
 
 Convert number to Thai Baht format, but faster & fully typed.
 
+## Demo
+
+- https://baht-js.vercel.app
+
 ## Usage
 
 - Install with npm or yarn

@@ -53,6 +53,34 @@ Run the benchmark to measure the speed among other libraries.
   thai-baht-text (x100000): 8525ms
   ```
 
+- Apple Macbook Pro with Node v14.16.0
+
+  ```shell
+  yarn benchmark
+
+  baht (x100000): 648ms
+  bahtLatest (x100000): 1393ms
+  thaiBahtLib (x100000): 5855ms
+  bahttext (x100000): 5664ms
+  BAHTTEXT.js (x100000): 8145ms
+  thai-baht-text (x100000): 15730ms
+  thai-baht-text-ts (x100000): 15734ms
+  ```
+
+- Intel(R) Xeon(R) Platinum 8259CL CPU @2.50GHz (64-bit) with Node v14.16.1
+
+  ```shell
+  yarn benchmark
+
+  baht (x100000): 684ms
+  bahtLatest (x100000): 1589ms
+  thaiBahtLib (x100000): 7366ms
+  bahttext (x100000): 7166ms
+  BAHTTEXT.js (x100000): 11513ms
+  thai-baht-text (x100000): 19315ms
+  thai-baht-text-ts (x100000): 17400ms
+  ```
+
 Baht.js is the fastest!
 
 ## LICENSE

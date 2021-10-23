@@ -67,6 +67,20 @@ Run the benchmark to measure the speed among other libraries.
   thai-baht-text-ts (x100000): 15734ms
   ```
 
+- Apple Macbook Pro 16-inch (i7, 16GB) with Node v16.12.0
+
+  ```shell
+  yarn benchmark
+
+  baht (x100000): 484ms
+  bahtLatest (x100000): 1044ms
+  thaiBahtLib (x100000): 4753ms
+  bahttext (x100000): 5120ms
+  BAHTTEXT.js (x100000): 7427ms
+  thai-baht-text (x100000): 13208ms
+  thai-baht-text-ts (x100000): 12344ms
+  ```
+
 - Intel(R) Xeon(R) Platinum 8259CL CPU @2.50GHz (64-bit) with Node v14.16.1
 
   ```shell

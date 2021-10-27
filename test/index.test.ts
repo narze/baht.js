@@ -44,6 +44,16 @@ describe('convert', () => {
     expect(convert(([] as unknown) as number)).toBe(false);
   });
 
+  it('should returns consistent result when use scientific notation', () => {
+    expect(convert('1e+3')).toEqual(convert(-1e+3));
+    expect(convert('1e+3')).toEqual(convert(1e+3));
+    expect(convert('1.2e+3')).toEqual(convert(1.2e+3));
+    expect(convert('-1.2e+3')).toEqual(convert(-1.2e+3));
+    expect(convert('1e-2')).toEqual(convert(1e-2));
+    expect(convert('1.2e-1')).toEqual(convert(1.2e-1));
+    expect(convert('-1.2e-1')).toEqual(convert(-1.2e-1));
+  });
+
   it('should be a function', () => {
     expect(convert).toEqual(expect.any(Function));
   });

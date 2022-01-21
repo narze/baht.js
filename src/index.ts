@@ -58,6 +58,16 @@ export function convert(input: number | string): string | boolean {
     satang = Number.isInteger(input) ? 0 : Math.floor((input * 100) % 100);
     bahtStr = '' + baht;
   } else if (typeof input === 'string') {
+    let negativeLeadingZeroPattern = /^-0+/;
+
+    if (input.startsWith('-')) {
+      if (input === '-0') {
+        input = '0';
+      } else {
+        input = input.replace(negativeLeadingZeroPattern, '-');
+      }
+    }
+
     let inputNum = Number(input);
 
     if (isNaN(inputNum)) {

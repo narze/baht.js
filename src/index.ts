@@ -92,7 +92,10 @@ export function convert(input: number | string): string | boolean {
       bahtStr = inputStr.slice(0, periodIdx);
       baht = +bahtStr;
       satangStr = inputStr.slice(periodIdx + 1);
-      satang = satangStr ? Number(satangStr.slice(0, 2)) : 0;
+      satang = satangStr
+        ? Number(satangStr.slice(0, 2)) *
+          (satangStr.length >= 2 ? 1 : [100, 10][satangStr.length])
+        : 0;
     } else {
       baht = inputNum;
       bahtStr = inputStr;

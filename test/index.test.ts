@@ -182,6 +182,12 @@ describe('convert', () => {
     expect(convert(('-1654321.21' as unknown) as number)).toBe(
       'ลบหนึ่งล้านหกแสนห้าหมื่นสี่พันสามร้อยยี่สิบเอ็ดบาทยี่สิบเอ็ดสตางค์'
     );
+    expect(convert(('152555.4' as unknown) as number)).toBe(
+      'หนึ่งแสนห้าหมื่นสองพันห้าร้อยห้าสิบห้าบาทสี่สิบสตางค์'
+    );
+    expect((convert('535.') as unknown) as number).toBe(
+      'ห้าร้อยสามสิบห้าบาทถ้วน'
+    );
   });
 
   it('should convert with leading zero before the decimal point in string format.', () => {

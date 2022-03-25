@@ -57,13 +57,7 @@ export function convert(input: number | string): string | boolean {
     baht = Math.floor(input);
     satang = Number.isInteger(input)
       ? 0
-      : Math.floor(
-          ((input +
-            Number.EPSILON *
-              (input > 10 ? Math.pow(10, Math.ceil(Math.log10(input))) : 1)) *
-            100) %
-            100
-        );
+      : Math.floor(((input + Number.EPSILON * Math.max(1, baht)) * 100) % 100);
     bahtStr = '' + baht;
   } else if (typeof input === 'string') {
     let negativeLeadingZeroPattern = /^-0+/;

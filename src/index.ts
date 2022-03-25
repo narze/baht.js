@@ -55,7 +55,9 @@ export function convert(input: number | string): string | boolean {
       input = -input;
     }
     baht = Math.floor(input);
-    satang = Number.isInteger(input) ? 0 : Math.floor((input * 100) % 100);
+    satang = Number.isInteger(input)
+      ? 0
+      : Math.floor(((input + Number.EPSILON) * 100) % 100);
     bahtStr = '' + baht;
   } else if (typeof input === 'string') {
     let negativeLeadingZeroPattern = /^-0+/;
@@ -90,7 +92,7 @@ export function convert(input: number | string): string | boolean {
       bahtStr = inputStr.slice(0, periodIdx);
       baht = +bahtStr;
       satangStr = inputStr.slice(periodIdx + 1);
-      satang = satangStr ? Math.floor(Number('0.' + satangStr) * 100) : 0;
+      satang = satangStr ? Number(satangStr.slice(0, 2)) : 0;
     } else {
       baht = inputNum;
       bahtStr = inputStr;

@@ -42,6 +42,8 @@ describe('convert', () => {
     expect(convert((true as unknown) as number)).toBe(false);
     expect(convert(({} as unknown) as number)).toBe(false);
     expect(convert(([] as unknown) as number)).toBe(false);
+    expect(convert(('155233.4b6' as unknown) as number)).toBe(false);
+    expect(convert(('155233.476a85' as unknown) as number)).toBe(false);
   });
 
   it('should be a function', () => {
@@ -145,6 +147,9 @@ describe('convert', () => {
     expect(convert(30034567.0)).toEqual(
       'สามสิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน'
     );
+    expect(convert(1534325986.4336942)).toEqual(
+      'หนึ่งพันห้าร้อยสามสิบสี่ล้านสามแสนสองหมื่นห้าพันเก้าร้อยแปดสิบหกบาทสี่สิบสามสตางค์'
+    );
   });
 
   it('should convert number to Baht with Satang', () => {
@@ -224,6 +229,42 @@ describe('convert', () => {
         convert((`-1${loopingNumber}.21${555555}` as unknown) as number)
       ).toBe(`ลบหนึ่ง${loopingText}บาทยี่สิบเอ็ดสตางค์`);
     }
+  });
+
+  it('IEEE 754 Case String', () => {
+    expect(convert(('283798.29' as unknown) as number)).toBe(
+      'สองแสนแปดหมื่นสามพันเจ็ดร้อยเก้าสิบแปดบาทยี่สิบเก้าสตางค์'
+    );
+
+    expect(convert(('486293.57' as unknown) as number)).toBe(
+      'สี่แสนแปดหมื่นหกพันสองร้อยเก้าสิบสามบาทห้าสิบเจ็ดสตางค์'
+    );
+
+    expect(convert(('552164.58' as unknown) as number)).toBe(
+      'ห้าแสนห้าหมื่นสองพันหนึ่งร้อยหกสิบสี่บาทห้าสิบแปดสตางค์'
+    );
+  });
+
+  it('IEEE 754 Case Small Number (<1000)', () => {
+    expect(convert(0.29)).toBe('ยี่สิบเก้าสตางค์');
+
+    expect(convert(553.57)).toBe('ห้าร้อยห้าสิบสามบาทห้าสิบเจ็ดสตางค์');
+
+    expect(convert(790.58)).toBe('เจ็ดร้อยเก้าสิบบาทห้าสิบแปดสตางค์');
+  });
+
+  it('IEEE 754 Case Big Number (>100000)', () => {
+    expect(convert(283798.29)).toBe(
+      'สองแสนแปดหมื่นสามพันเจ็ดร้อยเก้าสิบแปดบาทยี่สิบเก้าสตางค์'
+    );
+
+    expect(convert(486293.57)).toBe(
+      'สี่แสนแปดหมื่นหกพันสองร้อยเก้าสิบสามบาทห้าสิบเจ็ดสตางค์'
+    );
+
+    expect(convert(552164.58)).toBe(
+      'ห้าแสนห้าหมื่นสองพันหนึ่งร้อยหกสิบสี่บาทห้าสิบแปดสตางค์'
+    );
   });
 
   // it('equals to value from other library (STRESS TEST)', () => {

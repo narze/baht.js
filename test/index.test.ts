@@ -42,6 +42,8 @@ describe('convert', () => {
     expect(convert((true as unknown) as number)).toBe(false);
     expect(convert(({} as unknown) as number)).toBe(false);
     expect(convert(([] as unknown) as number)).toBe(false);
+    expect(convert(('155233.4b6' as unknown) as number)).toBe(false);
+    expect(convert(('155233.476a85' as unknown) as number)).toBe(false);
   });
 
   it('should be a function', () => {
@@ -102,6 +104,23 @@ describe('convert', () => {
     expect(convert(-121)).toEqual('ลบหนึ่งร้อยยี่สิบเอ็ดบาทถ้วน');
   });
 
+  it('should convert 1-99 satangs correctly compared to baht', () => {
+    const bahtArray = [];
+    const satangArray = [];
+
+    for (let i = 1; i < 100; i++) {
+      bahtArray.push((convert(i) as string).replace('บาทถ้วน', ''));
+      satangArray.push(
+        (convert(+`0.${i.toString().padStart(2, '0')}`) as string).replace(
+          'สตางค์',
+          ''
+        )
+      );
+    }
+
+    expect(bahtArray).toEqual(satangArray);
+  });
+
   it('should convert big number to Baht', () => {
     expect(convert(1000000)).toEqual('หนึ่งล้านบาทถ้วน');
     expect(convert(1000001)).toEqual('หนึ่งล้านเอ็ดบาทถ้วน');
@@ -145,6 +164,9 @@ describe('convert', () => {
     expect(convert(30034567.0)).toEqual(
       'สามสิบล้านสามหมื่นสี่พันห้าร้อยหกสิบเจ็ดบาทถ้วน'
     );
+    expect(convert(1534325986.4336942)).toEqual(
+      'หนึ่งพันห้าร้อยสามสิบสี่ล้านสามแสนสองหมื่นห้าพันเก้าร้อยแปดสิบหกบาทสี่สิบสามสตางค์'
+    );
   });
 
   it('should convert number to Baht with Satang', () => {
@@ -176,6 +198,12 @@ describe('convert', () => {
     );
     expect(convert(('-1654321.21' as unknown) as number)).toBe(
       'ลบหนึ่งล้านหกแสนห้าหมื่นสี่พันสามร้อยยี่สิบเอ็ดบาทยี่สิบเอ็ดสตางค์'
+    );
+    expect(convert(('152555.4' as unknown) as number)).toBe(
+      'หนึ่งแสนห้าหมื่นสองพันห้าร้อยห้าสิบห้าบาทสี่สิบสตางค์'
+    );
+    expect((convert('535.') as unknown) as number).toBe(
+      'ห้าร้อยสามสิบห้าบาทถ้วน'
     );
   });
 
@@ -224,6 +252,46 @@ describe('convert', () => {
         convert((`-1${loopingNumber}.21${555555}` as unknown) as number)
       ).toBe(`ลบหนึ่ง${loopingText}บาทยี่สิบเอ็ดสตางค์`);
     }
+  });
+
+  it('IEEE 754 Case String', () => {
+    expect(convert(('283798.29' as unknown) as number)).toBe(
+      'สองแสนแปดหมื่นสามพันเจ็ดร้อยเก้าสิบแปดบาทยี่สิบเก้าสตางค์'
+    );
+
+    expect(convert(('486293.57' as unknown) as number)).toBe(
+      'สี่แสนแปดหมื่นหกพันสองร้อยเก้าสิบสามบาทห้าสิบเจ็ดสตางค์'
+    );
+
+    expect(convert(('552164.58' as unknown) as number)).toBe(
+      'ห้าแสนห้าหมื่นสองพันหนึ่งร้อยหกสิบสี่บาทห้าสิบแปดสตางค์'
+    );
+  });
+
+  it('IEEE 754 Case Small Number (<1000)', () => {
+    expect(convert(0.29)).toBe('ยี่สิบเก้าสตางค์');
+
+    expect(convert(553.57)).toBe('ห้าร้อยห้าสิบสามบาทห้าสิบเจ็ดสตางค์');
+
+    expect(convert(790.58)).toBe('เจ็ดร้อยเก้าสิบบาทห้าสิบแปดสตางค์');
+  });
+
+  it('IEEE 754 Case Big Number (>100000)', () => {
+    expect(convert(283798.29)).toBe(
+      'สองแสนแปดหมื่นสามพันเจ็ดร้อยเก้าสิบแปดบาทยี่สิบเก้าสตางค์'
+    );
+
+    expect(convert(486293.57)).toBe(
+      'สี่แสนแปดหมื่นหกพันสองร้อยเก้าสิบสามบาทห้าสิบเจ็ดสตางค์'
+    );
+
+    expect(convert(874552164.58)).toBe(
+      'แปดร้อยเจ็ดสิบสี่ล้านห้าแสนห้าหมื่นสองพันหนึ่งร้อยหกสิบสี่บาทห้าสิบแปดสตางค์'
+    );
+
+    expect(convert(5143289600432.29)).toBe(
+      'ห้าล้านหนึ่งแสนสี่หมื่นสามพันสองร้อยแปดสิบเก้าล้านหกแสนสี่ร้อยสามสิบสองบาทยี่สิบเก้าสตางค์'
+    );
   });
 
   // it('equals to value from other library (STRESS TEST)', () => {

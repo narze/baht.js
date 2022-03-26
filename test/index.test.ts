@@ -104,6 +104,23 @@ describe('convert', () => {
     expect(convert(-121)).toEqual('ลบหนึ่งร้อยยี่สิบเอ็ดบาทถ้วน');
   });
 
+  it('should convert 1-99 satangs correctly compared to baht', () => {
+    const bahtArray = [];
+    const satangArray = [];
+
+    for (let i = 1; i < 100; i++) {
+      bahtArray.push((convert(i) as string).replace('บาทถ้วน', ''));
+      satangArray.push(
+        (convert(+`0.${i.toString().padStart(2, '0')}`) as string).replace(
+          'สตางค์',
+          ''
+        )
+      );
+    }
+
+    expect(bahtArray).toEqual(satangArray);
+  });
+
   it('should convert big number to Baht', () => {
     expect(convert(1000000)).toEqual('หนึ่งล้านบาทถ้วน');
     expect(convert(1000001)).toEqual('หนึ่งล้านเอ็ดบาทถ้วน');

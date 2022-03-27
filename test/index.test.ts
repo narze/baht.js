@@ -294,122 +294,150 @@ describe('convert', () => {
     );
   });
 
-  // This explicit test cases is for explicit testing (means that you'll see the number that errors)
-  // After that, you should wrap this in a single `it` block.
   it('should convert spaces as 0', () => {
-    // Normal Space
     expect(convert(('' as unknown) as number)).toBe('ศูนย์บาทถ้วน');
     expect(convert((' ' as unknown) as number)).toBe('ศูนย์บาทถ้วน');
     expect(convert(('  ' as unknown) as number)).toBe('ศูนย์บาทถ้วน');
   });
 
-  // TODO: wrap in `it("should convert number surrounding with spaces or zeros correctly", () => {/* */})`
-  const generateSpaceTest = (
-    input: string,
-    output: string,
-    negativeOutput = ''
-  ) => {
-    const neg_output = negativeOutput || 'ลบ' + output;
+  it('should convert number surrounding with spaces or zeros correctly', () => {
+    const generateSpaceTest = (
+      input: string,
+      output: string,
+      negativeOutput = ''
+    ) => {
+      const neg_output = negativeOutput || 'ลบ' + output;
 
-    const int_tests = [
-      [` ${input}`, output],
-      [`${input} `, output],
-      [` ${input} `, output],
-      [` 0${input}`, output],
-      [`0${input} `, output],
-      [` 0${input} `, output],
-      [` -${input}`, neg_output],
-      [`-${input} `, neg_output],
-      [` -${input} `, neg_output],
-      [` -0${input}`, neg_output],
-      [`-0${input} `, neg_output],
-      [` -0${input} `, neg_output],
-    ];
+      const int_tests = [
+        [` ${input}`, output],
+        [`${input} `, output],
+        [` ${input} `, output],
+        [` 0${input}`, output],
+        [`0${input} `, output],
+        [` 0${input} `, output],
+        [` 00${input}`, output],
+        [`00${input} `, output],
+        [` 00${input} `, output],
+        [` -${input}`, neg_output],
+        [`-${input} `, neg_output],
+        [` -${input} `, neg_output],
+        [` -0${input}`, neg_output],
+        [`-0${input} `, neg_output],
+        [` -0${input} `, neg_output],
+        [` -00${input}`, neg_output],
+        [`-00${input} `, neg_output],
+        [` -00${input} `, neg_output],
+      ];
 
-    const float_tests = [
-      [` ${input}0`, output],
-      [`${input}0 `, output],
-      [` ${input}0 `, output],
-      [` 0${input}0`, output],
-      [`0${input}0 `, output],
-      [` 0${input}0 `, output],
-      [` -${input}0`, neg_output],
-      [`-${input}0 `, neg_output],
-      [` -${input}0 `, neg_output],
-      [` -0${input}0`, neg_output],
-      [`-0${input}0 `, neg_output],
-      [` -0${input}0 `, neg_output],
-    ];
+      const float_tests = [
+        [` ${input}0`, output],
+        [`${input}0 `, output],
+        [` ${input}0 `, output],
+        [` ${input}00`, output],
+        [`${input}00 `, output],
+        [` ${input}00 `, output],
+        [` 0${input}0`, output],
+        [`0${input}0 `, output],
+        [` 0${input}0 `, output],
+        [` 0${input}00`, output],
+        [`0${input}00 `, output],
+        [` 0${input}00 `, output],
+        [` 00${input}0`, output],
+        [`00${input}0 `, output],
+        [` 00${input}0 `, output],
+        [` 00${input}00`, output],
+        [`00${input}00 `, output],
+        [` 00${input}00 `, output],
+        [` -${input}0`, neg_output],
+        [`-${input}0 `, neg_output],
+        [` -${input}0 `, neg_output],
+        [` -${input}00`, neg_output],
+        [`-${input}00 `, neg_output],
+        [` -${input}00 `, neg_output],
+        [` -0${input}0`, neg_output],
+        [`-0${input}0 `, neg_output],
+        [` -0${input}0 `, neg_output],
+        [` -0${input}00`, neg_output],
+        [`-0${input}00 `, neg_output],
+        [` -0${input}00 `, neg_output],
+        [` -00${input}0`, neg_output],
+        [`-00${input}0 `, neg_output],
+        [` -00${input}0 `, neg_output],
+        [` -00${input}00`, neg_output],
+        [`-00${input}00 `, neg_output],
+        [` -00${input}00 `, neg_output],
+      ];
 
-    const tests = input.includes('.')
-      ? int_tests.concat(float_tests)
-      : int_tests;
+      const tests = input.includes('.')
+        ? int_tests.concat(float_tests)
+        : int_tests;
 
-    it.each(tests)('"%s" => %s', (input, expected) => {
-      expect(convert((input as unknown) as number)).toBe(expected);
-    });
-  };
+      tests.forEach(([input, expected]) => {
+        expect(convert((input as unknown) as number)).toBe(expected);
+      });
+    };
 
-  // Normal Test
-  generateSpaceTest('0', 'ศูนย์บาทถ้วน', 'ศูนย์บาทถ้วน'); // -0 is same as 0
-  generateSpaceTest('0.0', 'ศูนย์บาทถ้วน', 'ศูนย์บาทถ้วน'); // -0.0 is same as 0.0
-  generateSpaceTest('0.5', 'ห้าสิบสตางค์');
-  generateSpaceTest('0.00', 'ศูนย์บาทถ้วน', 'ศูนย์บาทถ้วน'); // -0.00 is same as 0.00
-  generateSpaceTest('0.50', 'ห้าสิบสตางค์');
-  generateSpaceTest('0.55', 'ห้าสิบห้าสตางค์');
+    // Normal Test
+    generateSpaceTest('0', 'ศูนย์บาทถ้วน', 'ศูนย์บาทถ้วน'); // -0 is same as 0
+    generateSpaceTest('0.0', 'ศูนย์บาทถ้วน', 'ศูนย์บาทถ้วน'); // -0.0 is same as 0.0
+    generateSpaceTest('0.5', 'ห้าสิบสตางค์');
+    generateSpaceTest('0.00', 'ศูนย์บาทถ้วน', 'ศูนย์บาทถ้วน'); // -0.00 is same as 0.00
+    generateSpaceTest('0.50', 'ห้าสิบสตางค์');
+    generateSpaceTest('0.55', 'ห้าสิบห้าสตางค์');
 
-  generateSpaceTest('1', 'หนึ่งบาทถ้วน');
-  generateSpaceTest('1.0', 'หนึ่งบาทถ้วน');
-  generateSpaceTest('9.5', 'เก้าบาทห้าสิบสตางค์');
-  generateSpaceTest('9.00', 'เก้าบาทถ้วน');
-  generateSpaceTest('9.50', 'เก้าบาทห้าสิบสตางค์');
-  generateSpaceTest('9.55', 'เก้าบาทห้าสิบห้าสตางค์');
+    generateSpaceTest('1', 'หนึ่งบาทถ้วน');
+    generateSpaceTest('1.0', 'หนึ่งบาทถ้วน');
+    generateSpaceTest('9.5', 'เก้าบาทห้าสิบสตางค์');
+    generateSpaceTest('9.00', 'เก้าบาทถ้วน');
+    generateSpaceTest('9.50', 'เก้าบาทห้าสิบสตางค์');
+    generateSpaceTest('9.55', 'เก้าบาทห้าสิบห้าสตางค์');
 
-  generateSpaceTest('11', 'สิบเอ็ดบาทถ้วน');
-  generateSpaceTest('11.0', 'สิบเอ็ดบาทถ้วน');
-  generateSpaceTest('11.5', 'สิบเอ็ดบาทห้าสิบสตางค์');
-  generateSpaceTest('11.00', 'สิบเอ็ดบาทถ้วน');
-  generateSpaceTest('11.50', 'สิบเอ็ดบาทห้าสิบสตางค์');
-  generateSpaceTest('12.34', 'สิบสองบาทสามสิบสี่สตางค์');
+    generateSpaceTest('11', 'สิบเอ็ดบาทถ้วน');
+    generateSpaceTest('11.0', 'สิบเอ็ดบาทถ้วน');
+    generateSpaceTest('11.5', 'สิบเอ็ดบาทห้าสิบสตางค์');
+    generateSpaceTest('11.00', 'สิบเอ็ดบาทถ้วน');
+    generateSpaceTest('11.50', 'สิบเอ็ดบาทห้าสิบสตางค์');
+    generateSpaceTest('12.34', 'สิบสองบาทสามสิบสี่สตางค์');
 
-  // From other tests
-  generateSpaceTest(
-    '123456789.999',
-    'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์'
-  );
-  generateSpaceTest(
-    '4123001998830750501',
-    'สี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทถ้วน'
-  );
-  generateSpaceTest(
-    '4123001998830750501.21',
-    'สี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทยี่สิบเอ็ดสตางค์'
-  );
-  generateSpaceTest(
-    '1654321.21',
-    'หนึ่งล้านหกแสนห้าหมื่นสี่พันสามร้อยยี่สิบเอ็ดบาทยี่สิบเอ็ดสตางค์'
-  );
+    // From other tests
+    generateSpaceTest(
+      '123456789.999',
+      'หนึ่งร้อยยี่สิบสามล้านสี่แสนห้าหมื่นหกพันเจ็ดร้อยแปดสิบเก้าบาทเก้าสิบเก้าสตางค์'
+    );
+    generateSpaceTest(
+      '4123001998830750501',
+      'สี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทถ้วน'
+    );
+    generateSpaceTest(
+      '4123001998830750501.21',
+      'สี่ล้านหนึ่งแสนสองหมื่นสามพันเอ็ดล้านเก้าแสนเก้าหมื่นแปดพันแปดร้อยสามสิบล้านเจ็ดแสนห้าหมื่นห้าร้อยเอ็ดบาทยี่สิบเอ็ดสตางค์'
+    );
+    generateSpaceTest(
+      '1654321.21',
+      'หนึ่งล้านหกแสนห้าหมื่นสี่พันสามร้อยยี่สิบเอ็ดบาทยี่สิบเอ็ดสตางค์'
+    );
 
-  // IEEE Test
-  generateSpaceTest('0.29', 'ยี่สิบเก้าสตางค์');
-  generateSpaceTest('553.57', 'ห้าร้อยห้าสิบสามบาทห้าสิบเจ็ดสตางค์');
-  generateSpaceTest('790.58', 'เจ็ดร้อยเก้าสิบบาทห้าสิบแปดสตางค์');
-  generateSpaceTest(
-    '283798.29',
-    'สองแสนแปดหมื่นสามพันเจ็ดร้อยเก้าสิบแปดบาทยี่สิบเก้าสตางค์'
-  );
-  generateSpaceTest(
-    '486293.57',
-    'สี่แสนแปดหมื่นหกพันสองร้อยเก้าสิบสามบาทห้าสิบเจ็ดสตางค์'
-  );
-  generateSpaceTest(
-    '874552164.58',
-    'แปดร้อยเจ็ดสิบสี่ล้านห้าแสนห้าหมื่นสองพันหนึ่งร้อยหกสิบสี่บาทห้าสิบแปดสตางค์'
-  );
-  generateSpaceTest(
-    '5143289600432.29',
-    'ห้าล้านหนึ่งแสนสี่หมื่นสามพันสองร้อยแปดสิบเก้าล้านหกแสนสี่ร้อยสามสิบสองบาทยี่สิบเก้าสตางค์'
-  );
+    // IEEE Test
+    generateSpaceTest('0.29', 'ยี่สิบเก้าสตางค์');
+    generateSpaceTest('553.57', 'ห้าร้อยห้าสิบสามบาทห้าสิบเจ็ดสตางค์');
+    generateSpaceTest('790.58', 'เจ็ดร้อยเก้าสิบบาทห้าสิบแปดสตางค์');
+    generateSpaceTest(
+      '283798.29',
+      'สองแสนแปดหมื่นสามพันเจ็ดร้อยเก้าสิบแปดบาทยี่สิบเก้าสตางค์'
+    );
+    generateSpaceTest(
+      '486293.57',
+      'สี่แสนแปดหมื่นหกพันสองร้อยเก้าสิบสามบาทห้าสิบเจ็ดสตางค์'
+    );
+    generateSpaceTest(
+      '874552164.58',
+      'แปดร้อยเจ็ดสิบสี่ล้านห้าแสนห้าหมื่นสองพันหนึ่งร้อยหกสิบสี่บาทห้าสิบแปดสตางค์'
+    );
+    generateSpaceTest(
+      '5143289600432.29',
+      'ห้าล้านหนึ่งแสนสี่หมื่นสามพันสองร้อยแปดสิบเก้าล้านหกแสนสี่ร้อยสามสิบสองบาทยี่สิบเก้าสตางค์'
+    );
+  });
 
   // it('equals to value from other library (STRESS TEST)', () => {
   //   for (let i = 1; i < 20000000; i += 1) {

@@ -1,5 +1,5 @@
 {
-  "name": "bath",
+  "name": "baht",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -27,7 +27,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "baht": "^0.7.0",
+    "baht": "^0.7.1",
     "sirv-cli": "^1.0.0"
   }
 }

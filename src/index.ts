@@ -60,17 +60,19 @@ export function convert(input: number | string): string | boolean {
       : Math.floor(((input + Number.EPSILON * (baht || 1)) * 100) % 100);
     bahtStr = '' + baht;
   } else if (typeof input === 'string') {
-    let negativeLeadingZeroPattern = /^-0+/;
+    let formattedInput = input.trim();
 
-    if (input.startsWith('-')) {
-      if (input === '-0') {
-        input = '0';
-      } else {
-        input = input.replace(negativeLeadingZeroPattern, '-');
+    if (formattedInput.startsWith('-')) {
+      formattedInput = formattedInput.replace(/^-0+/, '-');
+      if (formattedInput === '-') {
+        // catch "-0" (also catch "-" — consideration needed)
+        formattedInput = '0';
       }
+    } else {
+      formattedInput = formattedInput.replace(/^0+/, '');
     }
 
-    let inputNum = Number(input);
+    let inputNum = Number(formattedInput);
 
     if (isNaN(inputNum)) {
       return false;
@@ -79,10 +81,10 @@ export function convert(input: number | string): string | boolean {
     if (inputNum < 0) {
       isNegative = true;
       inputNum = -inputNum;
-      input = input.slice(1);
+      formattedInput = formattedInput.slice(1);
     }
 
-    const inputStr = input;
+    const inputStr = formattedInput;
 
     let periodIdx;
     if (

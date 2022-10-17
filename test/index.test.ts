@@ -95,6 +95,7 @@ describe('convert', () => {
     });
 
     it('convert to 0', () => {
+      expect(convert(-0)).toEqual('ศูนย์บาทถ้วน');
       expect(convert(0)).toEqual('ศูนย์บาทถ้วน');
       expect(convert(0.0)).toEqual('ศูนย์บาทถ้วน');
       expect(convert(0.0001)).toEqual('ศูนย์บาทถ้วน');

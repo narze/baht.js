@@ -49,7 +49,6 @@ export function numberToThaiNumber(num: string): string {
 
   for (let i = 0; i < length; i++) {
     const d = num[i];
-    const di = length - i;
     
     if (d === ".") {
       output += d;

@@ -6,6 +6,7 @@ const YEE = 'ยี่';
 const LAN = 'ล้าน';
 const EMPTY = '';
 const DIGIT = [EMPTY, 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน'];
+const THAI_DIGIT = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
 const ONES = [EMPTY, ED, TWO, ...THREE_TO_NINE];
 const TENS = [EMPTY, ...[EMPTY, YEE, ...THREE_TO_NINE].map(t => t + DIGIT[1])];
 const SUB_HUNDRED = TENS.flatMap(t => ONES.map(o => t + o));
@@ -36,6 +37,27 @@ function numberToWords(num: string): string {
 
     if (!diMod && di) {
       output += LAN;
+    }
+  }
+
+  return output;
+}
+
+export function numberToThaiNumber(num: string): string {
+  let output = EMPTY;
+  const length = num.length;
+
+  for (let i = 0; i < length; i++) {
+    const d = num[i];
+    const di = length - i;
+    
+    if (d === ".") {
+      output += d;
+      if(i+1 == length) {
+        output += THAI_DIGIT[0];
+      }
+    } else {
+      output += THAI_DIGIT[parseInt(d)];
     }
   }
 

@@ -1,4 +1,4 @@
-import { convert } from '../src';
+import { convert, numberToThaiNumber } from '../src';
 import { convert as bahtLatest } from 'baht';
 const { ThaiBaht: thaiBahtText } = require('thai-baht-text-ts');
 
@@ -466,4 +466,22 @@ describe('convert', () => {
   //     expect(convert(i)).toEqual(thaiBahtText(i));
   //   }
   // });
+});
+
+describe('numberToThaiNumber', () => {
+  it('should be a function', () => {
+    expect(numberToThaiNumber).toEqual(expect.any(Function));
+  });
+
+  it('should be thai number', () => {
+    expect(numberToThaiNumber("1")).toBe("๑");
+    expect(numberToThaiNumber("10")).toBe("๑๐");
+    expect(numberToThaiNumber("789")).toBe("๗๘๙");
+  });
+
+  it('should be thai number with decimal', () => {
+    expect(numberToThaiNumber("1.0")).toBe("๑.๐");
+    expect(numberToThaiNumber("10.")).toBe("๑๐.๐");
+    expect(numberToThaiNumber("78.9")).toBe("๗๘.๙");
+  });
 });

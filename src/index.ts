@@ -42,7 +42,7 @@ function numberToWords(num: string): string {
   return output;
 }
 
-export function convert(input: number | string): string | boolean {
+export function convert(input: number | string): string | false {
   let baht: number;
   let bahtStr: string;
   let satang: number;

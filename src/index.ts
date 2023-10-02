@@ -52,7 +52,7 @@ export function convert(input: number | string): string | boolean {
   if (typeof input === 'number') {
     if (input < 0) {
       isNegative = true;
-      input = -input;
+      input = 0 - input;
     }
     baht = Math.floor(input);
     satang = Number.isInteger(input)
@@ -80,7 +80,7 @@ export function convert(input: number | string): string | boolean {
 
     if (inputNum < 0) {
       isNegative = true;
-      inputNum = -inputNum;
+      inputNum = 0 - inputNum;
       formattedInput = formattedInput.slice(1);
     }
 

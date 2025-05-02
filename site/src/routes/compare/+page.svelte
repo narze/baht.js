@@ -66,6 +66,8 @@
 
 	let input = 500;
 
+	let inputType = 'text';
+
 	const libs = {
 		'Baht.js': (n) => convert(n),
 		'Baht.js (+roundSatangs)': (n) => convert(n, { roundSatangs: true }),
@@ -99,7 +101,12 @@
 			<tbody>
 				<!-- User input -->
 				<tr>
-					<td class="text-end"><input bind:value={input} type="number" class="input-number" /></td>
+					<td class="text-end">
+						<input bind:value={input} type={inputType} class="input-number" /><br />
+						<button on:click={() => (inputType = inputType === 'number' ? 'text' : 'number')}
+							>Input type: {inputType}</button
+						>
+					</td>
 					{#each Object.entries(libs) as [name, fn]}
 						{@const result = fn(input)}
 						<td class:same-result={hasSameResultAsBahtJs(input, result)}>

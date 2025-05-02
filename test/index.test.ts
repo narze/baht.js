@@ -203,6 +203,34 @@ describe('convert', () => {
     });
   });
 
+  describe('exponential inputs', () => {
+    it('should convert exponential inputs to number', () => {
+      expect(convert(1e1)).toEqual('สิบบาทถ้วน');
+      expect(convert(1e2)).toEqual('หนึ่งร้อยบาทถ้วน');
+      expect(convert(1e3)).toEqual('หนึ่งพันบาทถ้วน');
+      expect(convert(1e4)).toEqual('หนึ่งหมื่นบาทถ้วน');
+      expect(convert(1e5)).toEqual('หนึ่งแสนบาทถ้วน');
+      expect(convert(1e6)).toEqual('หนึ่งล้านบาทถ้วน');
+      expect(convert(1e7)).toEqual('สิบล้านบาทถ้วน');
+      expect(convert(1e8)).toEqual('หนึ่งร้อยล้านบาทถ้วน');
+      expect(convert(1e9)).toEqual('หนึ่งพันล้านบาทถ้วน');
+    });
+
+    it('convert really big numbers correctly', () => {
+      // 123 + 45 zeros
+      // 123000 000000 000000 000000 000000 000000 000000 000000
+      // หนึ่งแสนสองหมื่นสามพันล้านล้านล้านล้านล้านล้านล้านบาทถ้วน
+
+      expect(
+        convert('123000000000000000000000000000000000000000000000')
+      ).toEqual('หนึ่งแสนสองหมื่นสามพันล้านล้านล้านล้านล้านล้านล้านบาทถ้วน');
+
+      expect(convert(123e45)).toEqual(
+        convert('123000000000000000000000000000000000000000000000')
+      );
+    });
+  });
+
   describe('roundSatangs mode', () => {
     it('rounds satangs to the nearest 2 digits', () => {
       expect(convert(0.12, { roundSatangs: true })).toEqual('สิบสองสตางค์');

@@ -77,6 +77,24 @@ export function convert(
       input = 0 - input;
     }
 
+    if (input > Number.MAX_SAFE_INTEGER) {
+      // The number may represent in exponential notation e.g. 1.23e45
+      const [b, s] = input.toString().split('e');
+      if (s) {
+        const [bb, decimal] = b.split('.');
+        if (decimal) {
+          return convert(
+            bb + decimal + '0'.repeat(Number(s) - decimal.length),
+            options
+          );
+        } else {
+          return convert(bb + '0'.repeat(Number(s)), options);
+        }
+      } else {
+        return convert(b, options);
+      }
+    }
+
     if (options.roundSatangs ?? globalOptions.roundSatangs) {
       if (input * 100 < Number.MAX_SAFE_INTEGER) {
         const rounded = Math.round((input + Number.EPSILON) * 100);

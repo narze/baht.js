@@ -2,17 +2,10 @@ import { bahttext } from 'bahttext';
 import THBText from 'thai-baht-text';
 import { ThaiBaht } from 'thai-baht-text-ts';
 import BAHTTEXTjs from '../site/src/lib/BAHTTEXT.js';
-import thaiBahtLib from '@to-da-moon/thai-baht-lib';
 import { convert as baht } from '../dist/baht.cjs.development.js';
 import { convert as bahtLatest } from 'baht';
-// const { bahttext } = require('bahttext');
-// const THBText = require('thai-baht-text');
-// const { ThaiBaht } = require('thai-baht-text-ts');
-// const BAHTTEXTjs = require('./BAHTTEXT');
-// const thaiBahtLib = require('@to-da-moon/thai-baht-lib');
-// const { convert: baht } = require('../dist/baht.cjs.production.min');
-// const { convert: bahtLatest } = require('baht');
 import { BT } from 'bahtrext';
+// import thaiBahtLib from '@to-da-moon/thai-baht-lib';
 
 const times = 100000;
 const numbers = [
@@ -72,7 +65,7 @@ const stringifiedNumbers = numbers.map(n => n.toString());
 const libraries = {
   baht: n => baht(n),
   bahtLatest: n => bahtLatest(n),
-  'thai-baht-lib (code improved from baht.js)': n => thaiBahtLib.bahtText(n),
+  // 'thai-baht-lib (code improved from baht.js)': n => thaiBahtLib.bahtText(n),
   bahttext: n => bahttext(n),
   'BAHTTEXT.js': n => BAHTTEXTjs(n),
   'thai-baht-text': n => THBText(n),

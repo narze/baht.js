@@ -14,6 +14,8 @@ const SUB_TEN = Object.fromEntries(
   SUB_HUNDRED.slice(0, 10).map((n, idx) => [String(idx), n])
 );
 
+export const VERSION = '1.0.0';
+
 export const globalOptions = {
   roundSatangs: false,
   strictEt: false,

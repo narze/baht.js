@@ -64,7 +64,7 @@ function numberToWords(
 export function convert(
   input: number | string,
   options: { roundSatangs?: boolean; strictEt?: boolean } = {}
-): string | false {
+): string {
   let baht: number;
   let bahtStr: string;
   let satang: number;
@@ -110,7 +110,7 @@ export function convert(
     let inputNum = Number(formattedInput);
 
     if (Number.isNaN(inputNum)) {
-      return false;
+      return '';
     }
 
     if (inputNum < 0) {
@@ -149,7 +149,7 @@ export function convert(
       satang = 0;
     }
   } else {
-    return false;
+    return '';
   }
 
   if (baht || satang) {

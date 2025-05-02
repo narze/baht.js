@@ -340,14 +340,14 @@ describe('convert', () => {
   });
 
   describe('bad inputs', () => {
-    it('returns false for bad inputs', () => {
-      expect(convert('hello')).toBe(false);
-      expect(convert((false as unknown) as number)).toBe(false);
-      expect(convert((true as unknown) as number)).toBe(false);
-      expect(convert(({} as unknown) as number)).toBe(false);
-      expect(convert(([] as unknown) as number)).toBe(false);
-      expect(convert(('155233.4b6' as unknown) as number)).toBe(false);
-      expect(convert(('155233.476a85' as unknown) as number)).toBe(false);
+    it('returns empty string for bad inputs', () => {
+      expect(convert('hello')).toBe('');
+      expect(convert((false as unknown) as number)).toBe('');
+      expect(convert((true as unknown) as number)).toBe('');
+      expect(convert(({} as unknown) as number)).toBe('');
+      expect(convert(([] as unknown) as number)).toBe('');
+      expect(convert(('155233.4b6' as unknown) as number)).toBe('');
+      expect(convert(('155233.476a85' as unknown) as number)).toBe('');
     });
   });
 

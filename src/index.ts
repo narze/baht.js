@@ -98,6 +98,10 @@ export function convert(
   } else if (typeof input === 'string') {
     let formattedInput = input.trim();
 
+    if (!formattedInput) {
+      return '';
+    }
+
     if (formattedInput.startsWith('-')) {
       formattedInput = formattedInput.replace(/^-0+/, '-');
       if (formattedInput === '-') {

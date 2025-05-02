@@ -340,7 +340,7 @@ describe('convert', () => {
   });
 
   describe('bad inputs', () => {
-    it('returns empty string for bad inputs', () => {
+    it('returns empty string bad inputs', () => {
       expect(convert('hello')).toBe('');
       expect(convert((false as unknown) as number)).toBe('');
       expect(convert((true as unknown) as number)).toBe('');
@@ -408,10 +408,10 @@ describe('convert', () => {
       }
     });
 
-    it('should convert spaces as 0', () => {
-      expect(convert(('' as unknown) as number)).toBe('ศูนย์บาทถ้วน');
-      expect(convert((' ' as unknown) as number)).toBe('ศูนย์บาทถ้วน');
-      expect(convert(('  ' as unknown) as number)).toBe('ศูนย์บาทถ้วน');
+    it('should convert spaces as empty', () => {
+      expect(convert(('' as unknown) as number)).toBe('');
+      expect(convert((' ' as unknown) as number)).toBe('');
+      expect(convert(('  ' as unknown) as number)).toBe('');
     });
   });
 
@@ -772,6 +772,18 @@ describe('convert', () => {
       expect(convert('-01654321.21', { strictEt: true })).toBe(
         'ลบหนึ่งล้านหกแสนห้าหมื่นสี่พันสามร้อยยี่สิบเอ็ดบาทยี่สิบเอ็ดสตางค์'
       );
+    });
+  });
+
+  describe('invalid inputs', () => {
+    it('should return empty string for invalid inputs', () => {
+      expect(convert('invalid')).toBe('');
+      expect(convert('')).toBe('');
+      expect(convert('   ')).toBe('');
+      expect(convert('abc123')).toBe('');
+      expect(convert('123abc')).toBe('');
+      expect(convert('1.2.3')).toBe('');
+      expect(convert('1..2')).toBe('');
     });
   });
 

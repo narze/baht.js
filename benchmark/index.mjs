@@ -3,9 +3,16 @@ import THBText from 'thai-baht-text';
 import { ThaiBaht } from 'thai-baht-text-ts';
 import BAHTTEXTjs from '../site/src/lib/BAHTTEXT.js';
 import thaiBahtLib from '@to-da-moon/thai-baht-lib';
-import bahtRext from 'bahtrext';
 import { convert as baht } from '../dist/baht.cjs.development.js';
 import { convert as bahtLatest } from 'baht';
+// const { bahttext } = require('bahttext');
+// const THBText = require('thai-baht-text');
+// const { ThaiBaht } = require('thai-baht-text-ts');
+// const BAHTTEXTjs = require('./BAHTTEXT');
+// const thaiBahtLib = require('@to-da-moon/thai-baht-lib');
+// const { convert: baht } = require('../dist/baht.cjs.production.min');
+// const { convert: bahtLatest } = require('baht');
+import { BT } from 'bahtrext';
 
 const times = 100000;
 const numbers = [
@@ -70,7 +77,7 @@ const libraries = {
   'BAHTTEXT.js': n => BAHTTEXTjs(n),
   'thai-baht-text': n => THBText(n),
   'thai-baht-text-ts': n => ThaiBaht(n),
-  BahtRext: n => bahtRext.BT(n),
+  BahtRext: n => BT(`${n}`),
 };
 
 Object.entries(libraries).forEach(([name, fn]) => {

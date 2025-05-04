@@ -229,6 +229,10 @@ describe('convert', () => {
         convert('123000000000000000000000000000000000000000000000')
       );
     });
+
+    it('convert exponential string input correctly', () => {
+      expect(convert('1e2')).toEqual('หนึ่งร้อยบาทถ้วน');
+    });
   });
 
   describe('roundSatangs mode', () => {

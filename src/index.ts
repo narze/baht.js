@@ -63,6 +63,22 @@ function numberToWords(
   return output;
 }
 
+function exponentialStringToNumberString(input: string): string {
+  const [b, s] = input.split('e');
+
+  if (s) {
+    const [bb, decimal] = b.split('.');
+
+    if (decimal) {
+      return bb + decimal + '0'.repeat(Number(s) - decimal.length);
+    } else {
+      return bb + '0'.repeat(Number(s));
+    }
+  } else {
+    return b + '0'.repeat(Number(s));
+  }
+}
+
 export function convert(
   input: number | string,
   options: { roundSatangs?: boolean; strictEt?: boolean } = {}
@@ -80,21 +96,10 @@ export function convert(
     }
 
     if (input > Number.MAX_SAFE_INTEGER) {
-      // The number may represent in exponential notation e.g. 1.23e45
-      const [b, s] = input.toString().split('e');
-      if (s) {
-        const [bb, decimal] = b.split('.');
-        if (decimal) {
-          return convert(
-            bb + decimal + '0'.repeat(Number(s) - decimal.length),
-            options
-          );
-        } else {
-          return convert(bb + '0'.repeat(Number(s)), options);
-        }
-      } else {
-        return convert(b, options);
-      }
+      return convert(
+        exponentialStringToNumberString(input.toString()),
+        options
+      );
     }
 
     if (options.roundSatangs ?? globalOptions.roundSatangs) {
@@ -129,6 +134,10 @@ export function convert(
       }
     } else {
       formattedInput = formattedInput.replace(/^0+/, '');
+    }
+
+    if (formattedInput.includes('e')) {
+      return convert(exponentialStringToNumberString(formattedInput), options);
     }
 
     let inputNum = Number(formattedInput);

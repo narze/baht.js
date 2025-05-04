@@ -4,9 +4,11 @@
   "author": "Manassarn Manoonchai",
   "description": "Convert number to Thai Baht & Satang format. Blazingly fast. TypeScript / Deno / Bun supported.",
   "license": "MIT",
-  "main": "dist/index.js",
-  "unpkg": "dist/baht.esm.js",
-  "jsdelivr": "dist/baht.esm.js",
+  "main": "dist/baht.cjs.js",
+  "module": "dist/baht.esm.js",
+  "unpkg": "dist/baht.umd.js",
+  "jsdelivr": "dist/baht.umd.js",
+  "browser": "dist/baht.umd.js",
   "homepage": "https://github.com/narze/baht.js",
   "repository": "github:narze/baht.js",
   "keywords": [
@@ -30,11 +32,11 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --format cjs,esm,umd",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "lint:fix": "tsdx lint --fix",
-    "prepare": "tsdx build",
+    "prepare": "tsdx build --format cjs,esm,umd",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "benchmark": "node ./benchmark/index.mjs"
@@ -51,7 +53,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/baht.esm.js",
   "size-limit": [
     {
       "path": "dist/baht.cjs.production.min.js",
@@ -59,6 +60,10 @@
     },
     {
       "path": "dist/baht.esm.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/baht.umd.min.js",
       "limit": "10 KB"
     }
   ],

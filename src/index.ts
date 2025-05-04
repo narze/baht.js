@@ -216,4 +216,9 @@ export function convert(
   return 'ศูนย์บาทถ้วน';
 }
 
+// Global browser support
+if (typeof window !== 'undefined') {
+  (window as any).Baht = convert;
+}
+
 export default convert;

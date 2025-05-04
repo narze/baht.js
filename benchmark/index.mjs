@@ -5,7 +5,6 @@ import BAHTTEXTjs from '../site/src/lib/BAHTTEXT.js';
 import { convert as baht } from '../dist/baht.cjs.development.js';
 import { convert as bahtLatest } from 'baht';
 import { BT } from 'bahtrext';
-// import thaiBahtLib from '@to-da-moon/thai-baht-lib';
 
 const times = 100000;
 const numbers = [

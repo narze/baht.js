@@ -1,5 +1,4 @@
 import { config, convert } from '../src';
-import ThaiBahtText from 'thai-baht-text';
 
 describe('convert', () => {
   beforeEach(() => {
@@ -825,11 +824,4 @@ describe('convert', () => {
       expect(convert('1..2')).toBe('');
     });
   });
-
-  // it('equals to value from other library (STRESS TEST)', () => {
-  //   for (let i = 1; i < 20000000; i += 1) {
-  //     expect(convert(i)).toEqual(convert(i));
-  //     expect(convert(i)).toEqual(ThaiBahtText(i));
-  //   }
-  // });
 });

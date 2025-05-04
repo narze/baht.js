@@ -66,16 +66,34 @@ function numberToWords(
 function exponentialStringToNumberString(input: string): string {
   const [b, s] = input.split('e');
 
-  if (s) {
-    const [bb, decimal] = b.split('.');
+  if (!s) {
+    return b;
+  }
 
-    if (decimal) {
-      return bb + decimal + '0'.repeat(Number(s) - decimal.length);
+  const [bb, decimal] = b.split('.');
+
+  const exponents = Number(s);
+  if (exponents < 0) {
+    const combined = decimal ? bb + decimal : bb;
+    const decimalPointPosition = bb.length + exponents;
+
+    if (decimalPointPosition <= 0) {
+      // Need to add leading zeros: 0.00...
+      return '0.' + '0'.repeat(Math.abs(decimalPointPosition)) + combined;
     } else {
-      return bb + '0'.repeat(Number(s));
+      // Insert decimal point within the number
+      return (
+        combined.slice(0, decimalPointPosition) +
+        '.' +
+        combined.slice(decimalPointPosition)
+      );
     }
+  }
+
+  if (decimal) {
+    return bb + decimal + '0'.repeat(exponents - decimal.length);
   } else {
-    return b + '0'.repeat(Number(s));
+    return bb + '0'.repeat(exponents);
   }
 }
 

@@ -214,6 +214,9 @@ describe('convert', () => {
       expect(convert(1e7)).toEqual('สิบล้านบาทถ้วน');
       expect(convert(1e8)).toEqual('หนึ่งร้อยล้านบาทถ้วน');
       expect(convert(1e9)).toEqual('หนึ่งพันล้านบาทถ้วน');
+      expect(convert(1e-1)).toEqual('สิบสตางค์');
+      expect(convert(12e-1)).toEqual('หนึ่งบาทยี่สิบสตางค์');
+      expect(convert(12e-2)).toEqual('สิบสองสตางค์');
     });
 
     it('convert really big numbers correctly', () => {
@@ -232,6 +235,10 @@ describe('convert', () => {
 
     it('convert exponential string input correctly', () => {
       expect(convert('1e2')).toEqual('หนึ่งร้อยบาทถ้วน');
+      expect(convert('1e-1')).toEqual('สิบสตางค์');
+      expect(convert('12e-1')).toEqual('หนึ่งบาทยี่สิบสตางค์');
+      expect(convert('12e-2')).toEqual('สิบสองสตางค์');
+      expect(convert('12e0')).toEqual('สิบสองบาทถ้วน');
     });
   });
 

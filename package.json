@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "name": "baht",
   "author": "Manassarn Manoonchai",
   "description": "Convert number to Thai Baht & Satang format. Blazingly fast. TypeScript / Deno / Bun supported.",

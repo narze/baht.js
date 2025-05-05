@@ -8,41 +8,99 @@ const EMPTY = '';
 const DIGIT = [EMPTY, 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน'];
 const ONES = [EMPTY, ED, TWO, ...THREE_TO_NINE];
 const TENS = [EMPTY, ...[EMPTY, YEE, ...THREE_TO_NINE].map(t => t + DIGIT[1])];
-const SUB_HUNDRED = TENS.flatMap(t => ONES.map(o => t + o));
-SUB_HUNDRED[1] = ONE;
-const SUB_TEN = [EMPTY, ONE, TWO, ...THREE_TO_NINE];
+const SUB_HUNDRED_ED = TENS.flatMap(t => ONES.map(o => t + o));
+const SUB_HUNDRED = [EMPTY, ONE, ...SUB_HUNDRED_ED.slice(2)];
+const SUB_TEN = Object.fromEntries(
+  SUB_HUNDRED.slice(0, 10).map((n, idx) => [String(idx), n])
+);
 
-function numberToWords(num: string): string {
+export const VERSION = '1.0.0';
+
+export const globalOptions = {
+  roundSatangs: false,
+  strictEt: false,
+};
+
+export function config(
+  options: { roundSatangs?: boolean; strictEt?: boolean } = {}
+): void {
+  globalOptions.roundSatangs = !!options.roundSatangs;
+  globalOptions.strictEt = !!options.strictEt;
+}
+
+function numberToWords(
+  num: string,
+  options: { strictEt?: boolean } = {}
+): string {
   let output = EMPTY;
+  let prev = EMPTY;
   const length = num.length;
 
   for (let i = 0; i < length; i++) {
-    const d = num[i];
+    const d = num.charAt(i);
     const di = length - i - 1;
     const diMod = di % 6;
-    const isSib = diMod === 1;
 
-    if (d === '0') {
-      // No-op
-    } else if (isSib && d === '1') {
-      output += DIGIT[diMod];
-    } else if (isSib && d === '2') {
-      output += YEE + DIGIT[diMod];
-    } else if (!diMod && d === '1' && i) {
-      output += ED;
-    } else {
-      output += SUB_TEN[Number(d)] + DIGIT[diMod];
+    if (d !== '0') {
+      if (d === '1' && diMod === 1) {
+        output += DIGIT[diMod];
+      } else if (d === '1' && diMod === 0 && i) {
+        output += prev === '0' && !options.strictEt ? ONE : ED;
+      } else if (d === '2' && diMod === 1) {
+        output += YEE + DIGIT[diMod];
+      } else {
+        output += SUB_TEN[d] + DIGIT[diMod];
+      }
     }
 
-    if (!diMod && di) {
+    if (di && !diMod) {
       output += LAN;
     }
+
+    prev = d;
   }
 
   return output;
 }
 
-export function convert(input: number | string): string | false {
+function exponentialStringToNumberString(input: string): string {
+  const [b, s] = input.split('e');
+
+  if (!s) {
+    return b;
+  }
+
+  const [bb, decimal] = b.split('.');
+
+  const exponents = Number(s);
+  if (exponents < 0) {
+    const combined = decimal ? bb + decimal : bb;
+    const decimalPointPosition = bb.length + exponents;
+
+    if (decimalPointPosition <= 0) {
+      // Need to add leading zeros: 0.00...
+      return '0.' + '0'.repeat(Math.abs(decimalPointPosition)) + combined;
+    } else {
+      // Insert decimal point within the number
+      return (
+        combined.slice(0, decimalPointPosition) +
+        '.' +
+        combined.slice(decimalPointPosition)
+      );
+    }
+  }
+
+  if (decimal) {
+    return bb + decimal + '0'.repeat(exponents - decimal.length);
+  } else {
+    return bb + '0'.repeat(exponents);
+  }
+}
+
+export function convert(
+  input: number | string,
+  options: { roundSatangs?: boolean; strictEt?: boolean } = {}
+): string {
   let baht: number;
   let bahtStr: string;
   let satang: number;
@@ -54,28 +112,56 @@ export function convert(input: number | string): string | false {
       isNegative = true;
       input = 0 - input;
     }
-    baht = Math.floor(input);
-    satang = Number.isInteger(input)
-      ? 0
-      : Math.floor(((input + Number.EPSILON * (baht || 1)) * 100) % 100);
-    bahtStr = '' + baht;
+
+    if (input > Number.MAX_SAFE_INTEGER) {
+      return convert(
+        exponentialStringToNumberString(input.toString()),
+        options
+      );
+    }
+
+    if (options.roundSatangs ?? globalOptions.roundSatangs) {
+      if (input * 100 < Number.MAX_SAFE_INTEGER) {
+        const rounded = Math.round((input + Number.EPSILON) * 100);
+        baht = Math.floor(rounded / 100);
+        satang = +String(Math.floor(rounded)).slice(-2);
+      } else {
+        const [b, s] = String(input).split('.');
+        satang = Math.round(Number(s) * 100);
+        baht = Number(b);
+      }
+    } else {
+      baht = Math.floor(input);
+      satang = Number.isInteger(input)
+        ? 0
+        : Math.floor(((input + Number.EPSILON * (baht || 1)) * 100) % 100);
+    }
+
+    bahtStr = String(baht);
   } else if (typeof input === 'string') {
     let formattedInput = input.trim();
+
+    if (!formattedInput) {
+      return '';
+    }
 
     if (formattedInput.startsWith('-')) {
       formattedInput = formattedInput.replace(/^-0+/, '-');
       if (formattedInput === '-') {
-        // catch "-0" (also catch "-" — consideration needed)
         formattedInput = '0';
       }
     } else {
       formattedInput = formattedInput.replace(/^0+/, '');
     }
 
+    if (formattedInput.includes('e')) {
+      return convert(exponentialStringToNumberString(formattedInput), options);
+    }
+
     let inputNum = Number(formattedInput);
 
-    if (isNaN(inputNum)) {
-      return false;
+    if (Number.isNaN(inputNum)) {
+      return '';
     }
 
     if (inputNum < 0) {
@@ -94,38 +180,45 @@ export function convert(input: number | string): string | false {
       bahtStr = inputStr.slice(0, periodIdx);
       baht = +bahtStr;
       satangStr = inputStr.slice(periodIdx + 1);
-      satang = satangStr
-        ? Number(satangStr.slice(0, 2)) *
-          (satangStr.length >= 2 ? 1 : [100, 10][satangStr.length])
-        : 0;
+
+      if (options.roundSatangs ?? globalOptions.roundSatangs) {
+        satang = Math.round(+`${satangStr}000`.slice(0, 3) / 10);
+        if (satang === 100) {
+          baht += 1;
+          bahtStr = String(baht);
+          satang = 0;
+        }
+      } else {
+        satang = satangStr
+          ? Number(satangStr.slice(0, 2)) *
+            (satangStr.length >= 2 ? 1 : [100, 10][satangStr.length])
+          : 0;
+      }
     } else {
       baht = inputNum;
       bahtStr = inputStr;
       satang = 0;
     }
   } else {
-    return false;
+    return '';
   }
 
-  if (!baht && !satang) {
-    return 'ศูนย์บาทถ้วน';
+  if (baht || satang) {
+    const prefix = isNegative ? 'ลบ' : EMPTY;
+    const currency = baht
+      ? `${numberToWords(bahtStr, {
+          strictEt: options.strictEt ?? globalOptions.strictEt,
+        })}บาท`
+      : EMPTY;
+    const subCurrency = satang ? `${SUB_HUNDRED[satang]}สตางค์` : 'ถ้วน';
+    return `${prefix}${currency}${subCurrency}`;
   }
-
-  let output = isNegative ? 'ลบ' : EMPTY;
-
-  // Baht
-  output += numberToWords(bahtStr);
-
-  // Satang
-  if (satang) {
-    if (baht) output += 'บาท';
-
-    // Faster!
-    output += SUB_HUNDRED[satang] + 'สตางค์';
-    // output += numberToWords(satang.toString()) + 'สตางค์';
-  } else {
-    output += 'บาทถ้วน';
-  }
-
-  return output;
+  return 'ศูนย์บาทถ้วน';
 }
+
+// Global browser support
+if (typeof window !== 'undefined') {
+  (window as any).Baht = convert;
+}
+
+export default { convert, config, VERSION };

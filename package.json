@@ -1,22 +1,26 @@
 {
-  "version": "0.7.1",
+  "version": "1.0.0-beta.5",
   "name": "baht",
   "author": "Manassarn Manoonchai",
-  "description": "Convert number to Thai Baht format, but faster & fully typed.",
+  "description": "Convert number to Thai Baht & Satang format. Blazingly fast. TypeScript / Deno / Bun supported.",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/baht.cjs.js",
+  "module": "dist/baht.esm.js",
+  "unpkg": "dist/baht.umd.production.min.js",
+  "jsdelivr": "dist/baht.umd.production.min.js",
+  "browser": "dist/baht.umd.production.min.js",
   "homepage": "https://github.com/narze/baht.js",
   "repository": "github:narze/baht.js",
   "keywords": [
-    "Thai",
-    "Baht",
+    "bahttext",
+    "thai",
+    "baht",
     "THB",
-    "Money",
-    "Number",
-    "Format",
-    "Convert",
-    "TypeScript",
-    "JavaScript"
+    "money",
+    "number",
+    "format",
+    "convert",
+    "TypeScript"
   ],
   "typings": "dist/index.d.ts",
   "files": [
@@ -28,14 +32,14 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --format cjs,esm,umd",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "lint:fix": "tsdx lint --fix",
-    "prepare": "tsdx build",
+    "prepare": "tsdx build --format cjs,esm,umd",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "benchmark": "node ./benchmark"
+    "benchmark": "node ./benchmark/index.mjs"
   },
   "peerDependencies": {},
   "husky": {
@@ -49,7 +53,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/baht.esm.js",
   "size-limit": [
     {
       "path": "dist/baht.cjs.production.min.js",
@@ -58,21 +61,25 @@
     {
       "path": "dist/baht.esm.js",
       "limit": "10 KB"
+    },
+    {
+      "path": "dist/baht.umd.production.min.js",
+      "limit": "10 KB"
     }
   ],
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^6.0.0",
-    "@to-da-moon/thai-baht-lib": "^0.0.10",
+    "@size-limit/preset-small-lib": "^11.2.0",
     "baht": "^0.7.1",
-    "bahtrext": "^1.6.2",
-    "bahttext": "^2.0.2",
-    "husky": "^7.0.2",
-    "size-limit": "^6.0.0",
-    "thai-baht-text": "^1.0.8",
-    "thai-baht-text-ts": "^1.0.5",
+    "bahtrext": "^1",
+    "bahttext": "^2.3.0",
+    "husky": "^9.1.7",
+    "size-limit": "^11.2.0",
+    "thai-baht-text": "^2.0.5",
+    "thai-baht-text-ts": "^1.1.0",
     "tsdx": "^0.14.1",
-    "tslib": "^2.3.1",
-    "typescript": "^4.4.3"
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

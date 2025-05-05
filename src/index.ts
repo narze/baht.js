@@ -221,4 +221,4 @@ if (typeof window !== 'undefined') {
   (window as any).Baht = convert;
 }
 
-export default convert;
+export default { convert, config, VERSION };
